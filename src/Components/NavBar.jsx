@@ -13,9 +13,9 @@ const NavBar = () => {
 
         window.addEventListener('scroll', handleScroll);
 
-        return () => {
-            window.removeEventListener('scroll', handleScroll); // Cleanup event listener
-        };
+        // return () => {
+        //     window.removeEventListener('scroll', handleScroll); // Cleanup event listener
+        // };
     }, []);
 
     return (
@@ -39,7 +39,7 @@ const NavBar = () => {
                         </div>
                         <ul
                             tabIndex={0}
-                            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+                            className="menu menu-sm dropdown-content bg-base-100 gap-3 rounded-box z-[1] mt-3 w-52 p-2 shadow">
                             <li>
                                 <NavLink to='/'>Home</NavLink>
                             </li>
@@ -49,6 +49,12 @@ const NavBar = () => {
                             <li>
                                 <NavLink to='/blogs'>Blog</NavLink>
                             </li>
+                            <li>
+                                <NavLink to='/login' className=' md:inline-flex btn border-red-500 bg-transparent h-1'>LogIn</NavLink>
+                            </li>
+                            <li>
+                                <NavLink to='/register' className=' md:inline-flex btn bg-red-500 text-white h-1'>Register</NavLink>
+                            </li>
                         </ul>
                     </div>
 
@@ -57,9 +63,9 @@ const NavBar = () => {
                             autoplay
                             loop
                             animationData={logo}
-                            className='w-10 h'
+                            className='w-8 h-8 md:w-10 md:h-10'
                         />
-                        <Link to='/' className="text-3xl font-semibold font-bebas">RunFest</Link>
+                        <Link to='/' className="text-2xl md:text-3xl font-semibold font-bebas">RedAid</Link>
                     </div>
                 </div>
                 <div className="navbar-center hidden lg:flex">
