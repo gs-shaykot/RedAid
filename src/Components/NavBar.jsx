@@ -1,12 +1,13 @@
+// make the dropdown svg on right in mobile
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import logo from "../assets/logo.json"
 import Lottie, { LottiePlayer } from 'lottie-react';
 
 const NavBar = () => {
     return (
-        <div>
-            <div className="navbar bg-base-100">
+        <div className='w-full shadow-md'>
+            <div className="container mx-auto navbar " >
                 <div className="navbar-start">
                     <div className="dropdown">
                         <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -26,29 +27,46 @@ const NavBar = () => {
                         <ul
                             tabIndex={0}
                             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-                            <li><a>Item 1</a></li>
-                            <li><a>Item 3</a></li>
+                            <li>
+                                <NavLink to='/'>Home</NavLink>
+                            </li>
+                            <li>
+                                <NavLink to='/donationRqst'>Donation Request</NavLink>
+                            </li>
+                            <li>
+                                <NavLink to='/blogs'>Blog</NavLink>
+                            </li>
                         </ul>
                     </div>
 
                     <div className='flex justify-center items-center'>
-                        <Lottie 
+                        <Lottie
                             autoplay
                             loop
-                            src={logo}  
+                            animationData={logo}
                             className='w-10 h'
                         />
-                        <NavLink to='/' className="text-3xl font-semibold font-bebas">RunFest</NavLink>
+                        <Link to='/' className="text-3xl font-semibold font-bebas">RunFest</Link>
                     </div>
                 </div>
                 <div className="navbar-center hidden lg:flex">
-                    <ul className="menu menu-horizontal px-1">
-                        <li><a>Item 1</a></li>
-                        <li><a>Item 3</a></li>
+                    <ul className="menu menu-horizontal px-1 gap-3">
+                        <li>
+                            <NavLink to='/'>Home</NavLink>
+                        </li>
+                        <li>
+                            <NavLink to='/donationRqst'>Donation Request</NavLink>
+                        </li>
+                        <li>
+                            <NavLink to='/blogs'>Blog</NavLink>
+                        </li>
                     </ul>
                 </div>
                 <div className="navbar-end">
-                    <a className="btn">Button</a>
+                    <div className='flex gap-2'>
+                        <NavLink to='/login' className='hidden md:inline-flex  btn border-1 border-red-600 rounded-full px-8 bg-transparent'>LogIn</NavLink>
+                        <NavLink to='/register' className='hidden md:inline-flex  btn bg-red-600 rounded-full px-8 text-white'>Register</NavLink>
+                    </div>
                 </div>
             </div>
         </div>
