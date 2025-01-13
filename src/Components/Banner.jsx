@@ -8,7 +8,7 @@ import { FaSearch } from "react-icons/fa";
 const Banner = () => {
     return (
         <div className='bg-red-100 '>
-            <div className="container mx-auto hero min-h-screen"><div className="hero-content flex-col-reverse lg:flex-row-reverse">
+            <div className="container mx-auto hero "><div className="hero-content flex-col-reverse md:flex-row-reverse">
                 {/* Lottie Animation */}
                 <Lottie
                     autoplay
@@ -17,7 +17,7 @@ const Banner = () => {
                     className="lg:w-[600px] md:h-[600px]"
                 />
                 {/* Hero Texts */}
-                <div id="heroTexts" className="mt-24 w-full lg:w-6/12">
+                <div id="heroTexts" className="mt-24 md:mt-0 w-full lg:w-6/12">
                     <h1 className="text-5xl font-bold">Save Lives Through Blood Donation</h1>
                     <p className="py-6">
                         Your single donation can save up to three lives. Join our community of lifesavers <br />
