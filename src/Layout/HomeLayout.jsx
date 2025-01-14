@@ -2,6 +2,7 @@ import React from 'react';
 import Banner from '../Components/Banner';
 import WTDonate from '../Components/WTDonate';
 import How from '../Components/How';
+import HomeRequests from '../assets/Requests';
 
 const HomeLayout = () => {
     return (
@@ -9,6 +10,7 @@ const HomeLayout = () => {
             <Banner></Banner>
             <WTDonate></WTDonate>
             <How></How>
+            <HomeRequests></HomeRequests>
         </div>
     );
 };

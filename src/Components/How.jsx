@@ -21,7 +21,7 @@ const How = () => {
                         <div className="card bg-white shadow-lg p-6 text-center">
                             <div className="flex justify-center items-center mb-4">
                                 <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
-                                    <span className="text-red-600 text-2xl">
+                                    <span className="text-red-500 text-2xl">
                                         <FaUserPlus />
                                     </span>
                                 </div>
@@ -36,7 +36,7 @@ const How = () => {
                         <div className="card bg-white shadow-lg p-6 text-center">
                             <div className="flex justify-center items-center mb-4">
                                 <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
-                                    <span className="text-red-600 text-2xl">
+                                    <span className="text-red-500 text-2xl">
                                         <BiSolidDonateHeart />
                                     </span>
                                 </div>
@@ -51,7 +51,7 @@ const How = () => {
                         <div className="card bg-white shadow-lg p-6 text-center">
                             <div className="flex justify-center items-center mb-4">
                                 <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
-                                    <span className="text-red-600 text-2xl">
+                                    <span className="text-red-500 text-2xl">
                                         <FaHandHoldingMedical />
                                     </span>
                                 </div>
