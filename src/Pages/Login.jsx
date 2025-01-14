@@ -1,8 +1,35 @@
- 
+
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const Login = () => {
+
+    const handleLogin = (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target)
+        const initialData = Object.fromEntries(formData.entries())
+        const { email, password } = initialData;
+
+        logInUser(email, password)
+            .then(res => {
+                Swal.fire({
+                    title: "Succeess",
+                    text: "User Created Successfully",
+                    icon: "success"
+                });
+                navigate(location?.state ? location.state : '/')
+            })
+            .catch(error => {
+                Swal.fire({
+                    title: "Error",
+                    text: error.message,
+                    icon: "error"
+                });
+            })
+    };
+
+
     return (
         <div>
             <div className="hero min-h-screen">
@@ -13,7 +40,7 @@ const Login = () => {
 
                     {/* Login Form */}
                     <div className="card bg-base-100 w-11/12 shadow-2xl mt-20 md:mt-0">
-                        <form className="card-body pb-0" >
+                        <form onClick={handleLogin} className="card-body pb-0" >
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text">Email</span>
@@ -57,7 +84,7 @@ const Login = () => {
                                     Login
                                 </button>
                             </div>
-                        </form> 
+                        </form>
                     </div>
                 </div>
             </div>
