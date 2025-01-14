@@ -2,7 +2,7 @@ import React from 'react';
 import Banner from '../Components/Banner';
 import WTDonate from '../Components/WTDonate';
 import How from '../Components/How';
-import HomeRequests from '../assets/Requests';
+import HomeRequests from '../Components/Requests';
 import BlogsCard from '../Components/Blogs'; 
 import ContactSection from './../Components/ContactSection';
 

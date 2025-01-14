@@ -12,6 +12,8 @@ import {
 } from "react-router-dom";
 import DonationRqst from './Pages/DonationRqst.jsx';
 import Blogs from './Pages/Blogs.jsx';
+import Login from './Pages/Login.jsx';
+import Register from './Pages/Register.jsx';
 
 export const router = createBrowserRouter([
   {
@@ -21,6 +23,14 @@ export const router = createBrowserRouter([
       {
         path: '/',
         element: <HomeLayout></HomeLayout>
+      },
+      {
+        path: '/login',
+        element: <Login/>
+      },
+      {
+        path: '/register',
+        element: <Register/>
       },
       {
         path: '/donationRqst',

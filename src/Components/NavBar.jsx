@@ -49,10 +49,10 @@ const NavBar = () => {
                                 <NavLink to='/blogs'>Blog</NavLink>
                             </li>
                             <li>
-                                <NavLink to='/login' className=' md:inline-flex btn border-red-500 bg-transparent h-1'>LogIn</NavLink>
+                                <Link to='/login' className=' md:inline-flex btn border-red-500 bg-transparent h-1'>LogIn</Link>
                             </li>
                             <li>
-                                <NavLink to='/register' className=' md:inline-flex btn bg-red-500 text-white h-1'>Register</NavLink>
+                                <Link to='/register' className=' md:inline-flex btn bg-red-500 text-white h-1'>Register</Link>
                             </li>
                         </ul>
                     </div>
@@ -82,8 +82,8 @@ const NavBar = () => {
                 </div>
                 <div className="navbar-end">
                     <div className='flex gap-2'>
-                        <NavLink to='/login' className='hidden md:inline-flex btn border-1 border-red-600 rounded-full px-8 bg-transparent'>LogIn</NavLink>
-                        <NavLink to='/register' className='hidden md:inline-flex btn bg-red-500 hover:bg-[#b91c1c] rounded-full px-8 text-white'>Register</NavLink>
+                        <Link to='/login' className='hidden md:inline-flex btn border-1 hover:text-white hover:bg-red-500 border-red-600 rounded-full px-8 bg-transparent'>LogIn</Link>
+                        <Link to='/register' className='hidden md:inline-flex btn bg-red-500 hover:bg-[#b91c1c] rounded-full px-8 text-white'>Register</Link>
                     </div>
                 </div>
             </div>

@@ -6,6 +6,8 @@
 .active {
     background: #dc2626 !important;
     color: white !important;
-    padding: 5px !important;
     text-align: center !important;
+}
+#form label{
+    font-weight: bold!important;
 }
