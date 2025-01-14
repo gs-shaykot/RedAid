@@ -1,24 +1,41 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import logo from "../assets/logo.json";
 import Lottie from 'lottie-react';
+import { AuthContext } from '../Provider/AuthProvider';
 
 const NavBar = () => {
-    const [isScrolled, setIsScrolled] = useState(false); 
+    const [isScrolled, setIsScrolled] = useState(false);
+    const { user, LogOut, setUser } = useContext(AuthContext)
+    const SignOut = () => {
+        LogOut()
+            .then(res => {
+                setUser()
+                Swal.fire({
+                    title: "Succeess",
+                    text: "Logged Out Successfully",
+                    icon: "success"
+                });
+            })
+            .catch(error => {
+                Swal.fire({
+                    title: "ERROR",
+                    text: error.message,
+                    icon: "error"
+                });
+            })
+    }
+
     useEffect(() => {
         const handleScroll = () => {
-            setIsScrolled(window.scrollY > 0);  
+            setIsScrolled(window.scrollY > 0);
         };
 
         window.addEventListener('scroll', handleScroll);
-
-        // return () => {
-        //     window.removeEventListener('scroll', handleScroll); // Cleanup event listener
-        // };
     }, []);
 
     return (
-        <div className={`w-full fixed top-0 z-20 transition-all duration-300 ${isScrolled ? 'bg-white shadow-md' : 'bg-transparent'}`}>
+        <div className={`w-full fixed top-0 z-20 transition-all duration-300 ${isScrolled ? 'bg-white shadow-md p-1' : 'bg-transparent'}`}>
             <div className="container mx-auto navbar">
                 <div className="navbar-start">
                     <div className="dropdown">
@@ -81,10 +98,30 @@ const NavBar = () => {
                     </ul>
                 </div>
                 <div className="navbar-end">
-                    <div className='flex gap-2'>
-                        <Link to='/login' className='hidden md:inline-flex btn border-1 hover:text-white hover:bg-red-500 border-red-600 rounded-full px-8 bg-transparent'>LogIn</Link>
-                        <Link to='/register' className='hidden md:inline-flex btn bg-red-500 hover:bg-[#b91c1c] rounded-full px-8 text-white'>Register</Link>
-                    </div>
+                    {
+                        user ? <div className="dropdown dropdown-end">
+                            <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+                                <div className="w-8 md:w-10 rounded-full">
+                                    <img
+                                        referrerPolicy='no-referrer'
+                                        alt="Tailwind CSS Navbar component"
+                                        src={user?.photoURL} />
+                                </div>
+                            </div>
+                            <ul
+                                tabIndex={0}
+                                className="menu bg-base-100 text-black menu-sm dropdown-content rounded-box z-30 mt-3 w-52 p-2 shadow">
+                                <li><a>{user?.displayName}</a></li>
+                                <li><a onClick={SignOut}>Logout</a></li>
+                            </ul>
+                        </div>
+                            :
+
+                            <div className='flex gap-2'>
+                                <Link to='/login' className='hidden md:inline-flex btn border-1 hover:text-white hover:bg-red-500 border-red-600 rounded-full px-8 bg-transparent'>LogIn</Link>
+                                <Link to='/register' className='hidden md:inline-flex btn bg-red-500 hover:bg-[#b91c1c] rounded-full px-8 text-white'>Register</Link>
+                            </div>
+                    }
                 </div>
             </div>
         </div>

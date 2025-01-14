@@ -14,6 +14,7 @@ import DonationRqst from './Pages/DonationRqst.jsx';
 import Blogs from './Pages/Blogs.jsx';
 import Login from './Pages/Login.jsx';
 import Register from './Pages/Register.jsx';
+import AuthProvider from './Provider/AuthProvider.jsx';
 
 export const router = createBrowserRouter([
   {
@@ -26,11 +27,11 @@ export const router = createBrowserRouter([
       },
       {
         path: '/login',
-        element: <Login/>
+        element: <Login />
       },
       {
         path: '/register',
-        element: <Register/>
+        element: <Register />
       },
       {
         path: '/donationRqst',
@@ -45,6 +46,8 @@ export const router = createBrowserRouter([
 ]);
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </React.StrictMode>
 )

@@ -1,18 +1,11 @@
-import {
-    createUserWithEmailAndPassword,
-    GoogleAuthProvider,
-    onAuthStateChanged,
-    signInWithEmailAndPassword,
-    signInWithPopup,
-    signOut
-} from 'firebase/auth';
+// Failed to resolve import "firebase/auth" from "src/Provider/AuthProvider.jsx". Does the file exist? 
 import React, { createContext, useEffect, useState } from 'react';
 import auth from './firebase';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth';
 
 export const AuthContext = createContext()
 
 const AuthProvider = ({ children }) => {
-    const provider = new GoogleAuthProvider();
     const [user, setUser] = useState();
     const [loader, setLoader] = useState(true);
 
@@ -36,6 +29,7 @@ const AuthProvider = ({ children }) => {
             setUser(currentUser);
             if (currentUser) {
                 setLoader(false)
+                console.log(currentUser)
                 // const user = { Name: currentUser.displayName, email: currentUser.email } for JWT
             } else {
                 console.log("No user signed in");
@@ -57,7 +51,6 @@ const AuthProvider = ({ children }) => {
         createUser,
         logInUser,
         LogOut,
-        logInGoogle,
     }
 
     return (

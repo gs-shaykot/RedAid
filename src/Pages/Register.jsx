@@ -1,5 +1,12 @@
-import React, { useEffect, useState } from 'react';
+// in updateProfile the image link is not setting in the photo
+import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from "react-hook-form";
+import { AuthContext } from '../Provider/AuthProvider';
+import Swal from 'sweetalert2';
+import { updateProfile } from 'firebase/auth';
+import auth from '../Provider/firebase';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
     const {
@@ -8,11 +15,17 @@ const Register = () => {
         watch,
         formState: { errors },
     } = useForm();
+
     const [districts, setDistricts] = useState([]);
     const [divisions, setDivisions] = useState([]);
-    const [selectedDivisionId, setSelectedDivisionId] = useState(null); 
+    const navigate = useNavigate()
+    const { createUser } = useContext(AuthContext)
+    const [selectedDivisionId, setSelectedDivisionId] = useState(null);
     const password = watch('password');
     const confirmPassword = watch('ConfirmPassword');
+    const IMGAPI = import.meta.env.VITE_IMGAPI
+    const IMGURL = `https://api.imgbb.com/1/upload?key=${IMGAPI}`
+
 
     useEffect(() => {
         fetch('districts.json')
@@ -28,9 +41,13 @@ const Register = () => {
         ? districts.filter(district => district.division_id === selectedDivisionId)
         : [];
 
-    const onSubmit = (data) => {
+    const onSubmit = async (data,e) => {
         if (password !== confirmPassword) {
-            alert("Passwords do not match!");
+            Swal.fire({
+                title: "Wrong Credential",
+                text: "Password must be at least 6 characters long and include an uppercase and a lowercase letter.",
+                icon: "warning"
+            });
             return;
         }
 
@@ -42,7 +59,54 @@ const Register = () => {
             status: "active"
         };
 
-        console.log(FinalData);
+        {/*
+            *FinalData.name
+            *FinalData.email
+            *FinalData.password
+            *FinalData.role
+            *FinalData.group
+            *FinalData.division
+            *FinalData.district
+            *FinalData.status
+            *res.data.data.display_url
+        */}
+        const imageFile = { image: FinalData.photo[0] }
+        const res = await axios.post(IMGURL, imageFile, {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+        });
+        const image = res.data.data.display_url
+        createUser(FinalData.email, FinalData.password)
+            .then(result => {
+                Swal.fire({
+                    title: "Succeess",
+                    text: "User Created Successfully",
+                    icon: "success"
+                });
+                updateProfile(auth.currentUser, {
+                    displayName: FinalData.name, photoURL: image
+                })
+                    .then(() => {
+                        // 
+                    })
+                    .catch((error) => {
+                        Swal.fire({
+                            title: "Updating Failed",
+                            text: error.message,
+                            icon: "error"
+                        });
+                    }); 
+                e.target.reset()
+                navigate('/')
+            })
+            .catch(error => {
+                Swal.fire({
+                    title: "Auth Error",
+                    text: error.message,
+                    icon: "error"
+                });
+            })
     };
 
     return (
