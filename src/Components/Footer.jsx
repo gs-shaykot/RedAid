@@ -7,8 +7,8 @@ const Footer = () => {
         {/* Contact Section */}
         <div>
           <h3 className="text-xl font-semibold mb-4">Contact Us</h3>
-          <p className="mb-2">Address: 123 Blood Donation Ave, City, Country</p>
-          <p className="mb-2">Phone: +1 234 567 890</p>
+          <p className="mb-2">Address: 123 Park Road, Cumilla, Bangladesh</p>
+          <p className="mb-2">Phone: +8801515267655</p>
           <p>Email: contact@blooddonation.org</p>
         </div>
 

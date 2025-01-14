@@ -5,10 +5,10 @@ import Footer from './../Components/Footer';
 
 const MainLayout = () => {
     return (
-        <div className='font-roboto'>
-            <NavBar></NavBar>
-            <Outlet></Outlet> 
-            <Footer></Footer>
+        <div className="font-roboto ">
+            <NavBar />
+            <Outlet />
+            <Footer />
         </div>
     );
 };

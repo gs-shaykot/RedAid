@@ -4,11 +4,10 @@ import logo from "../assets/logo.json";
 import Lottie from 'lottie-react';
 
 const NavBar = () => {
-    const [isScrolled, setIsScrolled] = useState(false);
-
+    const [isScrolled, setIsScrolled] = useState(false); 
     useEffect(() => {
         const handleScroll = () => {
-            setIsScrolled(window.scrollY > 0); // Detects if the user has scrolled
+            setIsScrolled(window.scrollY > 0);  
         };
 
         window.addEventListener('scroll', handleScroll);
@@ -84,7 +83,7 @@ const NavBar = () => {
                 <div className="navbar-end">
                     <div className='flex gap-2'>
                         <NavLink to='/login' className='hidden md:inline-flex btn border-1 border-red-600 rounded-full px-8 bg-transparent'>LogIn</NavLink>
-                        <NavLink to='/register' className='hidden md:inline-flex btn bg-red-600 rounded-full px-8 text-white'>Register</NavLink>
+                        <NavLink to='/register' className='hidden md:inline-flex btn bg-red-500 hover:bg-[#b91c1c] rounded-full px-8 text-white'>Register</NavLink>
                     </div>
                 </div>
             </div>

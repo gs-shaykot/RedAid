@@ -31,7 +31,7 @@ const Banner = () => {
                             </button>
                         </Link>
                         <Link>
-                            <button className="btn bg-red-500 text-white text-sm hover:bg-red-500">
+                            <button className="btn bg-red-500 hover:bg-[#b91c1c] text-white text-sm ">
                                 <FaSearch className="text-base" />
                                 Search Donors
                             </button>
