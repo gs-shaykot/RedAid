@@ -92,7 +92,7 @@ const HomeRequests = () => {
                                     </div>
                                 </div>
                                 <div className="card-actions justify-end">
-                                    <button className="btn w-full bg-red-500 text-white border-0 btn-primary">Buy Now</button>
+                                    <button className="btn w-full bg-red-500 text-white border-0 btn-primary">Donate Now</button>
                                 </div>
                             </div>
                         </div>
