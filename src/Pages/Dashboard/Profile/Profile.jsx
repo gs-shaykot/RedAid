@@ -1,10 +1,14 @@
+// check the data updating logic is ok or not
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../../Provider/AuthProvider';
 import Welcome from '../../../Components/Welcome.JSX';
-import useAxiosPublic from '../../../Hook/useAxiosPublic';
 import useUser from '../../../Hooks/useUser';
 import { useForm } from 'react-hook-form';
-import axios from 'axios';
+import auth from '../../../Provider/firebase';
+import useAxiosPublic from '../../../Hook/useAxiosPublic';
+import { updateProfile } from 'firebase/auth';
+import Swal from 'sweetalert2';
+import useDivDis from '../../../Hooks/useDivDis';
 
 const Profile = () => {
     const {
@@ -13,35 +17,60 @@ const Profile = () => {
         watch,
         formState: { errors },
     } = useForm();
+    const axiospub = useAxiosPublic()
     const { user } = useContext(AuthContext)
-    const [{ dbUser }] = useUser()
-    const axiosPub = useAxiosPublic()
-    const [districts, setDistricts] = useState([]);
-    const [divisions, setDivisions] = useState([]);
-    const [selectedDivisionId, setSelectedDivisionId] = useState(null);
+    const [{ dbUser, refetch }] = useUser()
     const [isEditable, setisEditable] = useState(false)
-    console.log(dbUser )
-
-    useEffect(() => {
-        fetch('/districts.json')
-            .then(res => res.json())
-            .then(data => setDistricts(data));
-
-        fetch('/divisions.json')
-            .then(res => res.json())
-            .then(data => setDivisions(data));
-    }, []);
-
+    const [selectedDivisionId, setSelectedDivisionId] = useState(null);
+    const [districts, divisions] = useDivDis()
     const filteredDistricts = selectedDivisionId
         ? districts.filter(district => district.division_id === selectedDivisionId)
         : [];
+    const IMGAPI = import.meta.env.VITE_IMGAPI
+    const IMGURL = `https://api.imgbb.com/1/upload?key=${IMGAPI}`
+
+
+
+
 
     const handleEditProfile = () => {
         setisEditable(true);
     }
 
-    const onSubmit = async (data, e) => { 
-        console.log(data)
+    const onSubmit = async (data, e) => {
+        const { email, role, ...rest } = data;
+        const FinalData = {
+            ...rest,
+            division: JSON.parse(data.division).name,
+            district: JSON.parse(data.district).name
+        };
+        const imageFile = { image: FinalData.photo[0] }
+        const res = await axiospub.post(IMGURL, imageFile, {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+        });
+        const image = res?.data?.data?.display_url
+        updateProfile(auth.currentUser, {
+            displayName: FinalData.name, photoURL: image
+        })
+            .then(res => {
+                // ToDo: database update
+                axiospub.patch(`users/${dbUser._id}`, FinalData)
+                    .then(res => {
+                        Swal.fire({
+                            title: "Successfull",
+                            text: "Profile Updated.",
+                            icon: "success"
+                        });
+                        refetch()
+                    })
+                // .catch(error => console.log(error.message))
+            })
+            .catch(error => {
+                // console.log(error.message)
+            })
+
         setisEditable(false)
     }
     return (
@@ -93,10 +122,8 @@ const Profile = () => {
                                 disabled
                                 defaultValue={dbUser?.email}
                                 type="email"
-                                {...register('email', { required: true })}
                                 placeholder="Email"
                                 className="input input-bordered" />
-                            {errors.email && <span className="text-red-600">Email is required</span>}
                         </div>
                     </div>
 
@@ -109,9 +136,7 @@ const Profile = () => {
                                 type="text"
                                 disabled
                                 defaultValue={dbUser?.role}
-                                {...register('role', { required: true })}
                                 className="pl-3 file-input file-input-bordered w-full " />
-                            {errors.role && <span className="text-red-600">role is required</span>}
                         </div>
                         <div className="form-control">
                             <label className="label">
@@ -148,7 +173,7 @@ const Profile = () => {
                             >
                                 {isEditable ? <option disabled selected>Select Your District:</option> : <option>{dbUser.division}</option>}
                                 {divisions.map(division => (
-                                    <option key={division.id} value={JSON.stringify({ id: division.id, name: division.name })}>
+                                    isEditable && <option key={division.id} value={JSON.stringify({ id: division.id, name: division.name })}>
                                         {division.name}
                                     </option>
                                 ))}

@@ -8,6 +8,7 @@ import auth from '../Provider/firebase';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import useAxiosPublic from '../Hook/useAxiosPublic';
+import useDivDis from '../Hooks/useDivDis';
 
 const Register = () => {
     const {
@@ -17,28 +18,15 @@ const Register = () => {
         formState: { errors },
     } = useForm();
 
-    const [districts, setDistricts] = useState([]);
-    const [divisions, setDivisions] = useState([]);
     const navigate = useNavigate()
     const axiosPub = useAxiosPublic()
     const { createUser } = useContext(AuthContext)
-    const [selectedDivisionId, setSelectedDivisionId] = useState(null);
     const password = watch('password');
     const confirmPassword = watch('ConfirmPassword');
-    const IMGAPI = import.meta.env.VITE_IMGAPI 
+    const IMGAPI = import.meta.env.VITE_IMGAPI
     const IMGURL = `https://api.imgbb.com/1/upload?key=${IMGAPI}`
-
-
-    useEffect(() => {
-        fetch('districts.json')
-            .then(res => res.json())
-            .then(data => setDistricts(data));
-
-        fetch('divisions.json')
-            .then(res => res.json())
-            .then(data => setDivisions(data));
-    }, []);
-
+    const [selectedDivisionId, setSelectedDivisionId] = useState(null);
+    const [districts, divisions] = useDivDis()
     const filteredDistricts = selectedDivisionId
         ? districts.filter(district => district.division_id === selectedDivisionId)
         : [];
@@ -73,14 +61,13 @@ const Register = () => {
             *res.data.data.display_url
         */}
 
-        const imageFile = { image: FinalData.photo[0] } 
+        const imageFile = { image: FinalData.photo[0] }
         console.log(imageFile)
         const res = await axiosPub.post(IMGURL, imageFile, {
             headers: {
                 'content-type': 'multipart/form-data'
             }
         });
-        console.log(res)
         const image = res?.data?.data?.display_url
         const user = {
             name: FinalData.name,
@@ -98,7 +85,7 @@ const Register = () => {
                     .then(data => {
                         console.log("users added", data)
                     })
-                    .catch(error=>console.log(error.message))
+                    .catch(error => console.log(error.message))
                 Swal.fire({
                     title: "Succeess",
                     text: "User Created Successfully",

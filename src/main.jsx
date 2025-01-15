@@ -21,6 +21,11 @@ import DashBoardMain from './Pages/Dashboard/DashBoardMain.jsx';
 import Profile from './Pages/Dashboard/Profile/Profile';
 import MyRequest from './Pages/Dashboard/Request/MyRequest.jsx';
 import CreateRequest from './Pages/Dashboard/Request/CreateRequest.jsx';
+import {
+  QueryClient,
+  QueryClientProvider,
+  useQuery,
+} from '@tanstack/react-query'
 
 export const router = createBrowserRouter([
   {
@@ -72,10 +77,15 @@ export const router = createBrowserRouter([
     ]
   },
 ]);
+
+const queryClient = new QueryClient()
+
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <AuthProvider>
-      <RouterProvider router={router} />
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
     </AuthProvider>
-  </React.StrictMode>
+  </React.StrictMode >
 )
