@@ -3,6 +3,7 @@ import { Link, NavLink } from 'react-router-dom';
 import logo from "../assets/logo.json";
 import Lottie from 'lottie-react';
 import { AuthContext } from '../Provider/AuthProvider';
+import Swal from 'sweetalert2';
 
 const NavBar = () => {
     const [isScrolled, setIsScrolled] = useState(false);
@@ -85,17 +86,35 @@ const NavBar = () => {
                     </div>
                 </div>
                 <div className="navbar-center hidden lg:flex">
-                    <ul className="menu menu-horizontal px-1 gap-3 text-lg">
-                        <li>
-                            <NavLink to='/'>Home</NavLink>
-                        </li>
-                        <li>
-                            <NavLink to='/donationRqst'>Donation Request</NavLink>
-                        </li>
-                        <li>
-                            <NavLink to='/blogs'>Blog</NavLink>
-                        </li>
-                    </ul>
+                    {
+                        user ?
+                            <ul className="menu menu-horizontal px-1 gap-3 text-lg">
+                                <li>
+                                    <NavLink to='/'>Home</NavLink>
+                                </li>
+                                <li>
+                                    <NavLink to='/donationRqst'>Donation Request</NavLink>
+                                </li>
+                                <li>
+                                    <NavLink to='/blogs'>Blog</NavLink>
+                                </li>
+                                <li>
+                                    <NavLink to='/'>Funding Links</NavLink>
+                                </li>
+                            </ul> :
+
+                            <ul className="menu menu-horizontal px-1 gap-3 text-lg">
+                                <li>
+                                    <NavLink to='/'>Home</NavLink>
+                                </li>
+                                <li>
+                                    <NavLink to='/donationRqst'>Donation Request</NavLink>
+                                </li>
+                                <li>
+                                    <NavLink to='/blogs'>Blog</NavLink>
+                                </li>
+                            </ul>
+                    }
                 </div>
                 <div className="navbar-end">
                     {
@@ -112,6 +131,7 @@ const NavBar = () => {
                                 tabIndex={0}
                                 className="menu bg-base-100 text-black menu-sm dropdown-content rounded-box z-30 mt-3 w-52 p-2 shadow">
                                 <li><a>{user?.displayName}</a></li>
+                                <li><NavLink to='/dashboard'>Dashboard</NavLink></li>
                                 <li><a onClick={SignOut}>Logout</a></li>
                             </ul>
                         </div>
@@ -124,7 +144,7 @@ const NavBar = () => {
                     }
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 

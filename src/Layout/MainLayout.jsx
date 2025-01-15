@@ -1,14 +1,16 @@
-import React from 'react'; 
-import { Outlet } from 'react-router-dom'; 
-import NavBar from '../Components/NavBar'; 
+import React from 'react';
+import { Outlet, useLocation } from 'react-router-dom';
+import NavBar from '../Components/NavBar';
 import Footer from './../Components/Footer';
 
 const MainLayout = () => {
+    const location = useLocation();
+    const noHeader = location.pathname.includes('dashboard');
     return (
         <div className="font-roboto ">
-            <NavBar />
+            {noHeader || <NavBar />}
             <Outlet />
-            <Footer />
+            {noHeader || <Footer />}
         </div>
     );
 };

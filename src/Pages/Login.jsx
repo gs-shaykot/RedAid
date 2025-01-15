@@ -1,9 +1,11 @@
 
-import React from 'react';
+import React, { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { AuthContext } from '../Provider/AuthProvider';
 
 const Login = () => {
+    const { logInUser } = useContext(AuthContext)
 
     const handleLogin = (e) => {
         e.preventDefault();
@@ -18,7 +20,7 @@ const Login = () => {
                     text: "User Created Successfully",
                     icon: "success"
                 });
-                navigate(location?.state ? location.state : '/')
+                // navigate(location?.state ? location.state : '/')
             })
             .catch(error => {
                 Swal.fire({
@@ -40,7 +42,7 @@ const Login = () => {
 
                     {/* Login Form */}
                     <div className="card bg-base-100 w-11/12 shadow-2xl mt-20 md:mt-0">
-                        <form onClick={handleLogin} className="card-body pb-0" >
+                        <form onSubmit={handleLogin} className="card-body pb-0" >
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text">Email</span>

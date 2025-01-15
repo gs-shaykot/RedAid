@@ -1,4 +1,3 @@
-// in updateProfile the image link is not setting in the photo
 import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from "react-hook-form";
 import { AuthContext } from '../Provider/AuthProvider';
@@ -7,6 +6,7 @@ import { updateProfile } from 'firebase/auth';
 import auth from '../Provider/firebase';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import useAxiosPublic from '../Hook/useAxiosPublic';
 
 const Register = () => {
     const {
@@ -19,6 +19,7 @@ const Register = () => {
     const [districts, setDistricts] = useState([]);
     const [divisions, setDivisions] = useState([]);
     const navigate = useNavigate()
+    const axiosSec = useAxiosPublic()
     const { createUser } = useContext(AuthContext)
     const [selectedDivisionId, setSelectedDivisionId] = useState(null);
     const password = watch('password');
@@ -41,7 +42,7 @@ const Register = () => {
         ? districts.filter(district => district.division_id === selectedDivisionId)
         : [];
 
-    const onSubmit = async (data,e) => {
+    const onSubmit = async (data, e) => {
         if (password !== confirmPassword) {
             Swal.fire({
                 title: "Wrong Credential",
@@ -70,6 +71,7 @@ const Register = () => {
             *FinalData.status
             *res.data.data.display_url
         */}
+
         const imageFile = { image: FinalData.photo[0] }
         const res = await axios.post(IMGURL, imageFile, {
             headers: {
@@ -77,8 +79,23 @@ const Register = () => {
             }
         });
         const image = res.data.data.display_url
+        const user = {
+            name: FinalData.name,
+            email: FinalData.email,
+            image: res.data.data.display_url,
+            blood: FinalData.group,
+            division: FinalData.division,
+            district: FinalData.district,
+            status: FinalData.status,
+            role: FinalData.role,
+        }
         createUser(FinalData.email, FinalData.password)
             .then(result => {
+                axiosSec.post('/users', user)
+                    .then(data => {
+                        console.log("users added", data)
+                    })
+                    .catch(error=>console.log(error.message))
                 Swal.fire({
                     title: "Succeess",
                     text: "User Created Successfully",
@@ -96,7 +113,7 @@ const Register = () => {
                             text: error.message,
                             icon: "error"
                         });
-                    }); 
+                    });
                 e.target.reset()
                 navigate('/')
             })

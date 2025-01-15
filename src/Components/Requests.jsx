@@ -51,7 +51,7 @@ const HomeRequests = () => {
             <div className=' grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 '>
                 {
                     donationRequests.map(data => (
-                        <div className="card bg-base-100 mx-auto w-11/12 shadow-xl">
+                        <div key={data.id} className="card bg-base-100 mx-auto w-11/12 shadow-xl">
                             <figure>
                                 <img
                                     src="https://i.ibb.co.com/3CCRkrD/Types-of-Donations-squeezeball-768x384.webp"

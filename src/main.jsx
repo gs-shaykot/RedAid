@@ -1,3 +1,4 @@
+// fix the routes of dashboard children
 import React, { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import MainLayout from './Layout/MainLayout';
@@ -15,6 +16,11 @@ import Blogs from './Pages/Blogs.jsx';
 import Login from './Pages/Login.jsx';
 import Register from './Pages/Register.jsx';
 import AuthProvider from './Provider/AuthProvider.jsx';
+import Dashboard from './Pages/Dashboard';
+import DashBoardMain from './Pages/Dashboard/DashBoardMain.jsx';
+import Profile from './Pages/Dashboard/Profile/Profile';
+import MyRequest from './Pages/Dashboard/Request/MyRequest.jsx';
+import CreateRequest from './Pages/Dashboard/Request/CreateRequest.jsx';
 
 export const router = createBrowserRouter([
   {
@@ -40,6 +46,28 @@ export const router = createBrowserRouter([
       {
         path: '/blogs',
         element: <Blogs></Blogs>
+      },
+      {
+        path: '/dashboard',
+        element: <Dashboard></Dashboard>,
+        children: [
+          {
+            path: '',
+            element: <DashBoardMain></DashBoardMain>
+          },
+          {
+            path: 'profile',
+            element: <Profile></Profile>
+          },
+          {
+            path: 'MyRequest',
+            element: <MyRequest></MyRequest>
+          },
+          {
+            path: 'CreateRequest',
+            element: <CreateRequest></CreateRequest>
+          }
+        ]
       },
     ]
   },
