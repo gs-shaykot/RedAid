@@ -99,7 +99,7 @@ const NavBar = () => {
                                     <NavLink to='/blogs'>Blog</NavLink>
                                 </li>
                                 <li>
-                                    <NavLink to='/'>Funding Links</NavLink>
+                                    <NavLink to='/funding'>Funding Links</NavLink>
                                 </li>
                             </ul> :
 
@@ -131,7 +131,7 @@ const NavBar = () => {
                                 tabIndex={0}
                                 className="menu bg-base-100 text-black menu-sm dropdown-content rounded-box z-30 mt-3 w-52 p-2 shadow">
                                 <li><a>{user?.displayName}</a></li>
-                                <li><NavLink to='/dashboard'>Dashboard</NavLink></li>
+                                <li><NavLink to='/dashboard/main'>Dashboard</NavLink></li>
                                 <li><a onClick={SignOut}>Logout</a></li>
                             </ul>
                         </div>

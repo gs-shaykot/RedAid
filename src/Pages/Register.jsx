@@ -1,3 +1,4 @@
+// imgBB upload giving 400 error
 import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from "react-hook-form";
 import { AuthContext } from '../Provider/AuthProvider';
@@ -19,12 +20,12 @@ const Register = () => {
     const [districts, setDistricts] = useState([]);
     const [divisions, setDivisions] = useState([]);
     const navigate = useNavigate()
-    const axiosSec = useAxiosPublic()
+    const axiosPub = useAxiosPublic()
     const { createUser } = useContext(AuthContext)
     const [selectedDivisionId, setSelectedDivisionId] = useState(null);
     const password = watch('password');
     const confirmPassword = watch('ConfirmPassword');
-    const IMGAPI = import.meta.env.VITE_IMGAPI
+    const IMGAPI = import.meta.env.VITE_IMGAPI 
     const IMGURL = `https://api.imgbb.com/1/upload?key=${IMGAPI}`
 
 
@@ -72,17 +73,19 @@ const Register = () => {
             *res.data.data.display_url
         */}
 
-        const imageFile = { image: FinalData.photo[0] }
-        const res = await axios.post(IMGURL, imageFile, {
+        const imageFile = { image: FinalData.photo[0] } 
+        console.log(imageFile)
+        const res = await axiosPub.post(IMGURL, imageFile, {
             headers: {
                 'content-type': 'multipart/form-data'
             }
         });
-        const image = res.data.data.display_url
+        console.log(res)
+        const image = res?.data?.data?.display_url
         const user = {
             name: FinalData.name,
             email: FinalData.email,
-            image: res.data.data.display_url,
+            image: image,
             blood: FinalData.group,
             division: FinalData.division,
             district: FinalData.district,
@@ -91,7 +94,7 @@ const Register = () => {
         }
         createUser(FinalData.email, FinalData.password)
             .then(result => {
-                axiosSec.post('/users', user)
+                axiosPub.post('/users', user)
                     .then(data => {
                         console.log("users added", data)
                     })

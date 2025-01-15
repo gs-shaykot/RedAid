@@ -6,8 +6,13 @@
 .active {
     background: #dc2626 !important;
     color: white !important;
-    text-align: center !important;
 }
-#form label{
-    font-weight: bold!important;
+
+#form label {
+    font-weight: bold !important;
+}
+
+.liear-bg {
+    background: rgb(250, 27, 27);
+    background: linear-gradient(174deg, rgba(250, 27, 27, 1) 0%, rgba(255, 255, 255, 0.05) 100%);
 }
