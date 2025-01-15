@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Welcome from '../../../Components/Welcome';
+import { AuthContext } from '../../../Provider/AuthProvider';
 
 const CreateRequest = () => {
     const {
@@ -9,13 +10,31 @@ const CreateRequest = () => {
         formState: { errors },
     } = useForm();
 
+    const { user } = useContext(AuthContext)
+    const [SelectDistrictId, setSelectedDistrictId] = useState(null);
+    const [districts, setDistricts] = useState([]);
+    const [upazillas, setUpazilla] = useState([]);
+    
+    useEffect(() => {
+        fetch('/districts.json')
+            .then(res => res.json())
+            .then(data => setDistricts(data));
+
+        fetch('/upazillas.json')
+            .then(res => res.json())
+            .then(data => setUpazilla(data));
+    }, []);
+    const filteredUpazillas = SelectDistrictId ?
+        upazillas.filter(upazilla => upazilla.district_id == SelectDistrictId) : []
+
     const onSubmit = (data) => {
         const donationRequest = {
             ...data,
-            donationStatus: 'pending', // Set the default status
+            requesterEmail: `${ user?.email }`,
+            requesterName: `${ user?.displayName }`,
+            donationStatus: 'pending',
         };
-        console.log('Donation Request:', donationRequest);
-        alert('Donation request created successfully!');
+        console.log('Donation Request:', donationRequest); 
         // You can send `donationRequest` to your backend API here
     };
 
@@ -35,7 +54,7 @@ const CreateRequest = () => {
                             <input
                                 className='border rounded w-full p-2'
                                 type='text'
-                                defaultValue='John Doe'
+                                defaultValue={user?.displayName}
                                 readOnly
                                 {...register('requesterName')}
                             />
@@ -45,7 +64,7 @@ const CreateRequest = () => {
                             <input
                                 className='border rounded w-full p-2'
                                 type='email'
-                                defaultValue='john.doe@example.com'
+                                defaultValue={user?.email}
                                 readOnly
                                 {...register('requesterEmail')}
                             />
@@ -69,11 +88,14 @@ const CreateRequest = () => {
                             <select
                                 className='border rounded w-full p-2'
                                 {...register('recipientDistrict', { required: 'District is required' })}
+                                onChange={e => setSelectedDistrictId(JSON.parse(e.target.value).id)}
                             >
-                                <option value=''>Select district</option>
-                                <option value='Dhaka'>Dhaka</option>
-                                <option value='Chittagong'>Chittagong</option>
-                                <option value='Sylhet'>Sylhet</option>
+                                <option disabled selected>Select Your District:</option>
+                                {districts.map(district => (
+                                    <option key={district.id} value={JSON.stringify({ id: district.id, name: district.name })}>
+                                        {district.name}
+                                    </option>
+                                ))}
                             </select>
                             {errors.recipientDistrict && <p className='text-red-500 text-sm'>{errors.recipientDistrict.message}</p>}
                         </div>
@@ -83,10 +105,11 @@ const CreateRequest = () => {
                                 className='border rounded w-full p-2'
                                 {...register('recipientUpazila', { required: 'Upazila is required' })}
                             >
-                                <option value=''>Select upazila</option>
-                                <option value='Gulshan'>Gulshan</option>
-                                <option value='Banani'>Banani</option>
-                                <option value='Mirpur'>Mirpur</option>
+                                {filteredUpazillas.map(upazilla => (
+                                    <option key={upazilla.id} value={JSON.stringify({ id: upazilla.id, name: upazilla.name })}>
+                                        {upazilla.name}
+                                    </option>
+                                ))}
                             </select>
                             {errors.recipientUpazila && <p className='text-red-500 text-sm'>{errors.recipientUpazila.message}</p>}
                         </div>

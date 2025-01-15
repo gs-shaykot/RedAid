@@ -21,8 +21,7 @@ const Profile = () => {
     const { user } = useContext(AuthContext)
     const [{ dbUser, refetch }] = useUser()
     const [isEditable, setisEditable] = useState(false)
-    const [selectedDivisionId, setSelectedDivisionId] = useState(null);
-    const [districts, divisions] = useDivDis()
+    const [selectedDivisionId, setSelectedDivisionId] = useState(null); 
     const filteredDistricts = selectedDivisionId
         ? districts.filter(district => district.division_id === selectedDivisionId)
         : [];
