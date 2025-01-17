@@ -1,3 +1,4 @@
-1: Active green dot at profile
-2: Redirect user to desired page after login
-3: private Route
+1: Active green dot at profile  
+4: use axiosSecure instead of axios
+5: style the welcome section (placing logo)
+6: apply district & Upazilla in instead of district and division in register.

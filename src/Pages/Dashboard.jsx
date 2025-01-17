@@ -14,7 +14,7 @@ const Dashboard = () => {
 
                     <div className="drawer-content flex flex-col">
                         {/* Navbar */}
-                        <div className="navbar items-start bg-white shadow-md w-full">
+                        <div className="navbar items-start bg-white shadow-md w-full h-screen">
                             <div className="flex-none lg:hidden">
                                 <label htmlFor="my-drawer-3" aria-label="open sidebar" className="btn btn-square btn-ghost">
                                     <svg

@@ -26,6 +26,7 @@ import {
   QueryClientProvider,
   useQuery,
 } from '@tanstack/react-query'
+import PrivateRoute from './Layout/PrivateRoute.jsx';
 
 export const router = createBrowserRouter([
   {
@@ -50,27 +51,27 @@ export const router = createBrowserRouter([
       },
       {
         path: '/blogs',
-        element: <Blogs></Blogs>
+        element: <PrivateRoute><Blogs></Blogs></PrivateRoute>
       },
       {
         path: 'dashboard',
-        element: <Dashboard></Dashboard>,
+        element: <PrivateRoute><Dashboard></Dashboard></PrivateRoute>,
         children: [
           {
             path: 'main',
-            element: <DashBoardMain></DashBoardMain>
+            element: <PrivateRoute><DashBoardMain></DashBoardMain></PrivateRoute>
           },
           {
             path: 'profile',
-            element: <Profile></Profile>
+            element: <PrivateRoute><Profile></Profile></PrivateRoute>
           },
           {
             path: 'MyRequest',
-            element: <MyRequest></MyRequest>
+            element: <PrivateRoute><MyRequest></MyRequest></PrivateRoute>
           },
           {
             path: 'CreateRequest',
-            element: <CreateRequest></CreateRequest>
+            element: <PrivateRoute><CreateRequest></CreateRequest></PrivateRoute>
           }
         ]
       },

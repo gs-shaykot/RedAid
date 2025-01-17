@@ -21,7 +21,8 @@ const Profile = () => {
     const { user } = useContext(AuthContext)
     const [{ dbUser, refetch }] = useUser()
     const [isEditable, setisEditable] = useState(false)
-    const [selectedDivisionId, setSelectedDivisionId] = useState(null); 
+    const [selectedDivisionId, setSelectedDivisionId] = useState(null);
+    const [districts, divisions] = useDivDis()
     const filteredDistricts = selectedDivisionId
         ? districts.filter(district => district.division_id === selectedDivisionId)
         : [];
@@ -92,11 +93,26 @@ const Profile = () => {
                             </div>
                         </div>
                     </div>
-                    <button
-                        onClick={handleEditProfile}
-                        className={`${isEditable ? 'hidden' : 'inline-flex'} btn border-2 border-red-500 bg-transparent hover:text-white hover:bg-red-600 mr-6`}>
-                        Edit Profile
-                    </button>
+                    <>
+                        {
+                            isEditable ? (
+                                <button
+                                    onClick={() => setisEditable(!isEditable)}
+                                    className="btn border-2 border-red-500 bg-transparent hover:text-white hover:bg-red-600 mr-6"
+                                >
+                                    Cancel Editing
+                                </button>
+                            ) : (
+                                <button
+                                    onClick={handleEditProfile}
+                                    className="btn border-2 border-red-500 bg-transparent hover:text-white hover:bg-red-600 mr-6"
+                                >
+                                    Edit Profile
+                                </button>
+                            )
+                        }
+                    </>
+
                 </div>
                 <form id='form' className="card-body" onSubmit={handleSubmit(onSubmit)}>
                     <div className="grid grid-cols-2 gap-3">
@@ -106,7 +122,7 @@ const Profile = () => {
                             </label>
                             <input
                                 type="text"
-                                readOnly={!isEditable}
+                                disabled={!isEditable}
                                 defaultValue={dbUser?.name}
                                 {...register('name', { required: true })}
                                 placeholder="Name"
@@ -142,10 +158,11 @@ const Profile = () => {
                                 <span className="label-text">Blood Group</span>
                             </label>
                             <select
+                                disabled={!isEditable}
                                 defaultValue={dbUser?.blood}
                                 {...register('group', { required: true })}
                                 className="select select-bordered w-full ">
-                                <option disabled selected>Select Blood Group:</option>
+                                {isEditable ? <option disabled selected>Select Your Group:</option> : <option>{dbUser?.blood}</option>}
                                 <option>A+</option>
                                 <option>A-</option>
                                 <option>B+</option>
@@ -165,7 +182,7 @@ const Profile = () => {
                                 <span className="label-text">Division</span>
                             </label>
                             <select
-                                readOnly={!isEditable}
+                                disabled={!isEditable}
                                 {...register('division', { required: true })}
                                 className="select select-bordered w-full "
                                 onChange={e => setSelectedDivisionId(JSON.parse(e.target.value).id)}
@@ -183,7 +200,7 @@ const Profile = () => {
                             <label className="label">
                                 <span className="label-text">District</span>
                             </label>
-                            <select readOnly={!isEditable} {...register('district', { required: true })} className="select select-bordered w-full ">
+                            <select disabled={!isEditable} {...register('district', { required: true })} className="select select-bordered w-full ">
                                 {isEditable ? <option disabled selected>Select Your District:</option> : <option>{dbUser.district}</option>}
                                 {filteredDistricts.map(district => (
                                     <option key={district.id} value={JSON.stringify({ id: district.id, name: district.name })}>
@@ -211,8 +228,9 @@ const Profile = () => {
                         )}
                     </div>
                 </form>
-            </div>
-        </div>
+
+            </div >
+        </div >
     );
 };
 

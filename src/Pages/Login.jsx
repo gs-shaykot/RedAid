@@ -1,12 +1,14 @@
-
+// how to check the 
 import React, { useContext } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { AuthContext } from '../Provider/AuthProvider';
 
 const Login = () => {
     const { logInUser } = useContext(AuthContext)
-
+    const navigate = useNavigate()
+    const location=useLocation()
+    console.log(location)
     const handleLogin = (e) => {
         e.preventDefault();
         const formData = new FormData(e.target)
@@ -20,7 +22,7 @@ const Login = () => {
                     text: "User Created Successfully",
                     icon: "success"
                 });
-                // navigate(location?.state ? location.state : '/')
+                navigate(location?.state ? location.state : '/')
             })
             .catch(error => {
                 Swal.fire({

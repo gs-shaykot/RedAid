@@ -1,29 +1,21 @@
+// where to use setLoader(false) in tenstack query ? this setLoader does stop loading 
 import React, { useContext, useEffect, useState } from 'react';
-import useAxiosPublic from '../Hook/useAxiosPublic';
 import { AuthContext } from '../Provider/AuthProvider';
 import { useQuery } from '@tanstack/react-query';
-
-// const useUser = () => {
-//     const { user } = useContext(AuthContext)
-//     const axiosPub = useAxiosPublic()
-//     const [dbUser, setDbuser] = useState([])
-//     useEffect(() => {
-//         axiosPub.get(`/users?email=${user?.email}`)
-//             .then(res => setDbuser(res.data))
-//     }, [user?.email, axiosPub])
-//     return [{ dbUser }]
-// };
+import useSecure from './useSecure';
 
 const useUser = () => {
-    const { user } = useContext(AuthContext)
-    const axiosPub = useAxiosPublic()
+    const { user, setLoader } = useContext(AuthContext)
+    const axiosSec = useSecure()
     const { data: dbUser = [], isPending, refetch } = useQuery({
         queryKey: ['user'],
         queryFn: async () => {
-            const res = await axiosPub.get(`/users?email=${user?.email}`)
+            const res = await axiosSec.get(`/users?email=${user?.email}`)
             return res.data
         }
     })
+    if (isPending)
+        <span className="loading loading-ring loading-lg"></span>
     return [{ dbUser, isPending, refetch }]
 };
 
