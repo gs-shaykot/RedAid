@@ -7,7 +7,7 @@ const useRequests = () => {
     const axiosSec = useSecure();
     const { user } = useContext(AuthContext);
 
-    const { data: Requests = [], isLoading, refetch } = useQuery({
+    const { data: Requests = [], isPending, refetch } = useQuery({
         queryKey: ['Requests'],
         queryFn: async () => {
             const res = await axiosSec(`/requests?email=${user?.email}`); 
@@ -15,7 +15,7 @@ const useRequests = () => {
         },
     });
 
-    return { Requests, isLoading, refetch };
+    return [{ Requests, isPending, refetch }];
 };
 
 export default useRequests;

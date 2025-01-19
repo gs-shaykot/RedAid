@@ -49,11 +49,15 @@ const DashBoardMain = () => {
                                     <Td className='border border-gray-300 p-1'>{data.donationDate}</Td>
                                     <Td className='border border-gray-300 p-1'>{data.donationTime}</Td>
                                     <Td className='border border-gray-300 p-1'>{data.bloodGroup}</Td>
-                                    <Td className='border border-gray-300 p-1'>{data.donationStatus}</Td>
+                                    <Td className='border border-gray-300 p-1'>
+                                        <div className='badge badge-warning'>
+                                            {data.donationStatus}
+                                        </div>
+                                    </Td>
                                     <Td className='border border-gray-300 p-1'>
                                         <div className='flex gap-2 justify-center items-center text-xl'>
-                                            <MdEditSquare className='text-orange-500'/>
-                                            <MdDeleteForever className='text-red-500'/>
+                                            <MdEditSquare className='text-orange-500' />
+                                            <MdDeleteForever className='text-red-500' />
                                         </div>
                                     </Td>
                                 </Tr>

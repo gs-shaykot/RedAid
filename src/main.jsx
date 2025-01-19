@@ -1,4 +1,4 @@
-// fix the routes of dashboard children
+// check all route is defined correctly ?
 import React, { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import MainLayout from './Layout/MainLayout';
@@ -27,6 +27,7 @@ import {
   useQuery,
 } from '@tanstack/react-query'
 import PrivateRoute from './Layout/PrivateRoute.jsx';
+import RequestDetails from './Pages/RequestDetails.jsx';
 
 export const router = createBrowserRouter([
   {
@@ -47,7 +48,12 @@ export const router = createBrowserRouter([
       },
       {
         path: '/donationRqst',
-        element: <DonationRqst></DonationRqst>
+        element: <DonationRqst></DonationRqst>,
+      },
+      {
+        path: '/requestDtls/:id',
+        loader: ({ params }) => fetch(`http://localhost:5000/requests/${params.id}`),
+        element: <RequestDetails></RequestDetails>
       },
       {
         path: '/blogs',
