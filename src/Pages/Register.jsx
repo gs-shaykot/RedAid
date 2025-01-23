@@ -1,4 +1,4 @@
-// imgBB upload giving 400 error
+// check the code has any error
 import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from "react-hook-form";
 import { AuthContext } from '../Provider/AuthProvider';
@@ -7,7 +7,7 @@ import { updateProfile } from 'firebase/auth';
 import auth from '../Provider/firebase';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import useAxiosPublic from '../Hook/useAxiosPublic';
+import useAxiosPublic from '../Hooks/useAxiosPublic';
 import useDivDis from '../Hooks/useDivDis';
 
 const Register = () => {
@@ -25,13 +25,15 @@ const Register = () => {
     const confirmPassword = watch('ConfirmPassword');
     const IMGAPI = import.meta.env.VITE_IMGAPI
     const IMGURL = `https://api.imgbb.com/1/upload?key=${IMGAPI}`
-    const [selectedDivisionId, setSelectedDivisionId] = useState(null);
-    const [districts, divisions] = useDivDis()
-    const filteredDistricts = selectedDivisionId
-        ? districts.filter(district => district.division_id === selectedDivisionId)
-        : [];
+
+    const [SelectDistrictId, setSelectedDistrictId] = useState(null);
+    const [districts, upazillas] = useDivDis()
+    const filteredUpazillas = SelectDistrictId ?
+        upazillas.filter(upazilla => upazilla.district_id == SelectDistrictId) : []
+
 
     const onSubmit = async (data, e) => {
+        console.log(data)
         if (password !== confirmPassword) {
             Swal.fire({
                 title: "Wrong Credential",
@@ -43,8 +45,8 @@ const Register = () => {
 
         const FinalData = {
             ...data,
-            division: JSON.parse(data.division).name,
-            district: JSON.parse(data.district).name,
+            District: JSON.parse(data.District).name,
+            Upazila: JSON.parse(data.Upazila).name,
             role: "donar",
             status: "active"
         };
@@ -62,7 +64,6 @@ const Register = () => {
         */}
 
         const imageFile = { image: FinalData.photo[0] }
-        console.log(imageFile)
         const res = await axiosPub.post(IMGURL, imageFile, {
             headers: {
                 'content-type': 'multipart/form-data'
@@ -74,8 +75,8 @@ const Register = () => {
             email: FinalData.email,
             image: image,
             blood: FinalData.group,
-            division: FinalData.division,
-            district: FinalData.district,
+            District: FinalData.District,
+            Upazila: FinalData.Upazila,
             status: FinalData.status,
             role: FinalData.role,
         }
@@ -155,7 +156,10 @@ const Register = () => {
                                     <label className="label">
                                         <span className="label-text">Blood Group</span>
                                     </label>
-                                    <select {...register('group', { required: true })} className="select select-bordered w-full max-w-xs">
+                                    <select
+                                        defaultValue=""
+                                        {...register('group', { required: true })}
+                                        className="select select-bordered w-full max-w-xs">
                                         <option disabled selected>Select Blood Group:</option>
                                         <option>A+</option>
                                         <option>A-</option>
@@ -171,37 +175,40 @@ const Register = () => {
                             </div>
 
                             <div className='grid grid-cols-2 gap-2'>
-                                <div className="form-control">
-                                    <label className="label">
-                                        <span className="label-text">Division</span>
-                                    </label>
+                                <div>
+                                    <label className='block mb-2'>District</label>
                                     <select
-                                        {...register('division', { required: true })}
-                                        className="select select-bordered w-full max-w-xs"
-                                        onChange={e => setSelectedDivisionId(JSON.parse(e.target.value).id)}
+                                        defaultValue=""
+                                        className='border rounded w-full p-2'
+                                        {...register('District', { required: 'District is required' })}
+                                        onChange={e => setSelectedDistrictId(JSON.parse(e.target.value).id)}
                                     >
-                                        <option disabled selected>Select Your Division:</option>
-                                        {divisions.map(division => (
-                                            <option key={division.id} value={JSON.stringify({ id: division.id, name: division.name })}>
-                                                {division.name}
-                                            </option>
-                                        ))}
-                                    </select>
-                                    {errors.division && <span className="text-red-600">Division is required</span>}
-                                </div>
-                                <div className="form-control">
-                                    <label className="label">
-                                        <span className="label-text">District</span>
-                                    </label>
-                                    <select {...register('district', { required: true })} className="select select-bordered w-full max-w-xs">
                                         <option disabled selected>Select Your District:</option>
-                                        {filteredDistricts.map(district => (
+                                        {districts.map(district => (
+                                            // console district
                                             <option key={district.id} value={JSON.stringify({ id: district.id, name: district.name })}>
                                                 {district.name}
                                             </option>
                                         ))}
                                     </select>
-                                    {errors.district && <span className="text-red-600">District is required</span>}
+                                    {errors.District && <p className='text-red-500 text-sm'>{errors.District.message}</p>}
+                                </div>
+                                <div>
+                                    <label className='block mb-2'>Upazila</label>
+                                    <select
+                                        defaultValue=""
+                                        className='border rounded w-full p-2'
+                                        {...register('Upazila', { required: 'Upazila is required' })}
+                                    >
+                                        <option disabled selected>Select Your Upazilla:</option>
+                                        {filteredUpazillas.map(upazilla => (
+                                            // console upazilla
+                                            <option key={upazilla.id} value={JSON.stringify({ id: upazilla.id, name: upazilla.name })}>
+                                                {upazilla.name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                    {errors.Upazila && <p className='text-red-500 text-sm'>{errors.Upazila.message}</p>}
                                 </div>
                             </div>
 

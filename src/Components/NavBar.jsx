@@ -1,13 +1,16 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import logo from "../assets/logo.json";
 import Lottie from 'lottie-react';
 import { AuthContext } from '../Provider/AuthProvider';
 import Swal from 'sweetalert2';
+import useAdmin from '../Hooks/useisAdmin';
 
 const NavBar = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const { user, LogOut, setUser } = useContext(AuthContext)
+    const [isAdmin] = useAdmin()
+    const navigate = useNavigate()
     const SignOut = () => {
         LogOut()
             .then(res => {
@@ -17,6 +20,7 @@ const NavBar = () => {
                     text: "Logged Out Successfully",
                     icon: "success"
                 });
+                navigate('/')
             })
             .catch(error => {
                 Swal.fire({
@@ -118,23 +122,28 @@ const NavBar = () => {
                 </div>
                 <div className="navbar-end">
                     {
-                        user ? <div className="dropdown dropdown-end">
-                            <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-                                <div className="w-8 md:w-10 rounded-full">
-                                    <img
-                                        referrerPolicy='no-referrer'
-                                        alt="Tailwind CSS Navbar component"
-                                        src={user?.photoURL} />
+                        user ?
+                            <div className="dropdown dropdown-end">
+                                <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+                                    <div className="w-8 md:w-10 rounded-full">
+                                        <img
+                                            referrerPolicy='no-referrer'
+                                            alt="Tailwind CSS Navbar component"
+                                            src={user?.photoURL} />
+                                    </div>
                                 </div>
+                                <ul
+                                    tabIndex={0}
+                                    className="menu bg-base-100 text-black menu-sm dropdown-content rounded-box z-30 mt-3 w-52 p-2 shadow">
+                                    <li><NavLink to='/dashboard/profile'>{user?.displayName}</NavLink></li>
+                                    {
+                                        isAdmin ?
+                                            <li><NavLink to='/dashboard/adminDashboard'>Dashboard</NavLink></li> :
+                                            <li><NavLink to='/dashboard/main'>Dashboard</NavLink></li>
+                                    }
+                                    <li><a onClick={SignOut}>Logout</a></li>
+                                </ul>
                             </div>
-                            <ul
-                                tabIndex={0}
-                                className="menu bg-base-100 text-black menu-sm dropdown-content rounded-box z-30 mt-3 w-52 p-2 shadow">
-                                <li><a>{user?.displayName}</a></li>
-                                <li><NavLink to='/dashboard/main'>Dashboard</NavLink></li>
-                                <li><a onClick={SignOut}>Logout</a></li>
-                            </ul>
-                        </div>
                             :
 
                             <div className='flex gap-2'>

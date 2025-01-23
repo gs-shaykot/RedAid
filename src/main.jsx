@@ -28,6 +28,13 @@ import {
 } from '@tanstack/react-query'
 import PrivateRoute from './Layout/PrivateRoute.jsx';
 import RequestDetails from './Pages/RequestDetails.jsx';
+import UpdateRequest from './Pages/UpdateRequest.jsx';
+import AdminRoute from './Layout/AdminRoute';
+import AdminDashboard from './Pages/Dashboard/Admin/AdminDashboard';
+import Alluser from './Pages/Dashboard/Admin/Alluser.jsx';
+import AllBloodReq from './Pages/Dashboard/Admin/AllBloodReq.jsx';
+import ContentMng from './Pages/Dashboard/Admin/ContentMng.jsx';
+import axios from 'axios';
 
 export const router = createBrowserRouter([
   {
@@ -52,12 +59,16 @@ export const router = createBrowserRouter([
       },
       {
         path: '/requestDtls/:id',
-        loader: ({ params }) => fetch(`http://localhost:5000/requests/${params.id}`),
+        loader: ({ params }) => axios.get(`http://localhost:5000/requests/${params.id}`, { withCredentials: true }),
         element: <RequestDetails></RequestDetails>
       },
       {
         path: '/blogs',
         element: <PrivateRoute><Blogs></Blogs></PrivateRoute>
+      },
+      {
+        path: '/reqUpdate/:id',
+        element: <PrivateRoute><UpdateRequest></UpdateRequest></PrivateRoute>
       },
       {
         path: 'dashboard',
@@ -78,7 +89,24 @@ export const router = createBrowserRouter([
           {
             path: 'CreateRequest',
             element: <PrivateRoute><CreateRequest></CreateRequest></PrivateRoute>
-          }
+          },
+          // admin route part
+          {
+            path: 'adminDashboard',
+            element: <AdminRoute><AdminDashboard></AdminDashboard></AdminRoute>
+          },
+          {
+            path: 'alluser',
+            element: <AdminRoute><Alluser></Alluser></AdminRoute>
+          },
+          {
+            path: 'allBloodReq',
+            element: <AdminRoute><AllBloodReq></AllBloodReq></AdminRoute>
+          },
+          {
+            path: 'contentMng',
+            element: <AdminRoute><ContentMng></ContentMng></AdminRoute>
+          },
         ]
       },
     ]

@@ -14,12 +14,10 @@ const useSecure = () => {
     useEffect(() => {
         AxiosSecure.interceptors.response.use(response => {
             return response
-        }, error => {
-            console.log(error.status)
+        }, error => { 
             if (error.status === 401 || error.status === 403) {
                 LogOut()
-                    .then(res => {
-                        console.log(res)
+                    .then(res => { 
                         Swal.fire({
                             title: "Warning",
                             text: "Logged out For forbidden access",

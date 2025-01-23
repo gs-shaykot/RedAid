@@ -1,12 +1,13 @@
-//why these datas are are formating like this despite i am parsing in the onSubmit? recipientDistrict : "{\"id\":\"1\",\"name\":\"Comilla\"}" ,recipientUpazila: "{\"id\":\"4\",\"name\":\"Chandina\"}"
 import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Welcome from '../../../Components/Welcome';
 import { AuthContext } from '../../../Provider/AuthProvider';
 import axios from 'axios';
-import useAxiosPublic from '../../../Hook/useAxiosPublic';
 import Swal from 'sweetalert2';
 import useUser from '../../../Hooks/useUser';
+import { useNavigate } from 'react-router-dom';
+import useDivDis from '../../../Hooks/useDivDis';
+import useSecure from '../../../Hooks/useSecure';
 
 const CreateRequest = () => {
     const {
@@ -17,24 +18,26 @@ const CreateRequest = () => {
 
     const { user } = useContext(AuthContext)
     const [{ dbUser }] = useUser()
+
     const [SelectDistrictId, setSelectedDistrictId] = useState(null);
-    const [districts, setDistricts] = useState([]);
-    const [upazillas, setUpazilla] = useState([]);
+    // const [districts, setDistricts] = useState([]);
+    // const [upazillas, setUpazilla] = useState([]);
+    const [districts, upazillas] = useDivDis()
+    const navigate = useNavigate()
+    // useEffect(() => {
+    //     fetch('/districts.json')
+    //         .then(res => res.json())
+    //         .then(data => setDistricts(data));
 
-    useEffect(() => {
-        fetch('/districts.json')
-            .then(res => res.json())
-            .then(data => setDistricts(data));
+    //     fetch('/upazillas.json')
+    //         .then(res => res.json())
+    //         .then(data => setUpazilla(data));
+    // }, []);
 
-        fetch('/upazillas.json')
-            .then(res => res.json())
-            .then(data => setUpazilla(data));
-    }, []);
     const filteredUpazillas = SelectDistrictId ?
         upazillas.filter(upazilla => upazilla.district_id == SelectDistrictId) : []
 
-    const axiosPub = useAxiosPublic()
-    // take createdDate: today's date also in the donationRequest
+    const axiosSec = useSecure()
     const onSubmit = (data) => {
         const donationRequest = {
             ...data,
@@ -43,18 +46,18 @@ const CreateRequest = () => {
             requesterEmail: `${user?.email}`,
             requesterName: `${user?.displayName}`,
             donationStatus: 'pending',
-            createdDate: new Date().toISOString().split('T')[0],  
+            createdDate: new Date().toISOString().split('T')[0],
         };
 
-        console.log("Donation Data", donationRequest); 
-        axiosPub.post('/requests', donationRequest)
+        axiosSec.post('/requests', donationRequest)
             .then(res => {
                 if (res.data.insertedId) {
                     Swal.fire({
                         title: "Successful",
-                        text: "Profile Updated.",
+                        text: "Post Submitted.",
                         icon: "success"
                     });
+                    navigate('/dashboard/main')
                 }
             });
     };

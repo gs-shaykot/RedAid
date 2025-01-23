@@ -7,8 +7,7 @@ import { AuthContext } from '../Provider/AuthProvider';
 const Login = () => {
     const { logInUser } = useContext(AuthContext)
     const navigate = useNavigate()
-    const location=useLocation()
-    console.log(location)
+    const location=useLocation() 
     const handleLogin = (e) => {
         e.preventDefault();
         const formData = new FormData(e.target)

@@ -5,32 +5,43 @@ import Welcome from '../../../Components/Welcome.JSX';
 import useUser from '../../../Hooks/useUser';
 import { useForm } from 'react-hook-form';
 import auth from '../../../Provider/firebase';
-import useAxiosPublic from '../../../Hook/useAxiosPublic';
 import { updateProfile } from 'firebase/auth';
 import Swal from 'sweetalert2';
 import useDivDis from '../../../Hooks/useDivDis';
+import useSecure from '../../../Hooks/useSecure';
+import useAxiosPublic from '../../../Hooks/useAxiosPublic';
 
 const Profile = () => {
+
     const {
         register,
         handleSubmit,
         watch,
         formState: { errors },
     } = useForm();
-    const axiospub = useAxiosPublic()
+
+
     const { user } = useContext(AuthContext)
     const [{ dbUser, refetch }] = useUser()
     const [isEditable, setisEditable] = useState(false)
-    const [selectedDivisionId, setSelectedDivisionId] = useState(null);
-    const [districts, divisions] = useDivDis()
-    const filteredDistricts = selectedDivisionId
-        ? districts.filter(district => district.division_id === selectedDivisionId)
-        : [];
+
+    const [SelectDistrictId, setSelectedDistrictId] = useState(null);
+    const [districts, upazillas] = useDivDis()
+    const filteredUpazillas = SelectDistrictId ?
+        upazillas.filter(upazilla => upazilla.district_id == SelectDistrictId) : []
+
+
+
     const IMGAPI = import.meta.env.VITE_IMGAPI
     const IMGURL = `https://api.imgbb.com/1/upload?key=${IMGAPI}`
 
-
-
+    const axiosSec = useSecure()
+    const axiosPub = useAxiosPublic()
+    // useEffect(() => {
+    //     axiosSec.get(`/users/${user?.email}`)
+    //         .then(res=>console.log("isAdmin response: ",res))
+    //         .catch(error=>console.log("isAdmin error: ",error)) 
+    // })
 
 
     const handleEditProfile = () => {
@@ -41,11 +52,11 @@ const Profile = () => {
         const { email, role, ...rest } = data;
         const FinalData = {
             ...rest,
-            division: JSON.parse(data.division).name,
-            district: JSON.parse(data.district).name
+            District: JSON.parse(data.District).name,
+            Upazila: JSON.parse(data.Upazila).name
         };
         const imageFile = { image: FinalData.photo[0] }
-        const res = await axiospub.post(IMGURL, imageFile, {
+        const res = await axiosPub.post(IMGURL, imageFile, {
             headers: {
                 'content-type': 'multipart/form-data'
             }
@@ -56,7 +67,7 @@ const Profile = () => {
         })
             .then(res => {
                 // ToDo: database update
-                axiospub.patch(`users/${dbUser._id}`, FinalData)
+                axiosSec.patch(`users/${dbUser._id}`, FinalData, { withCredentials: true })
                     .then(res => {
                         Swal.fire({
                             title: "Successfull",
@@ -122,7 +133,7 @@ const Profile = () => {
                             </label>
                             <input
                                 type="text"
-                                disabled={!isEditable}
+                                disabled={true}
                                 defaultValue={dbUser?.name}
                                 {...register('name', { required: true })}
                                 placeholder="Name"
@@ -177,38 +188,42 @@ const Profile = () => {
                     </div>
 
                     <div className='grid grid-cols-2 gap-2'>
-                        <div className="form-control">
-                            <label className="label">
-                                <span className="label-text">Division</span>
-                            </label>
+                        <div>
+                            <label className='block mb-2'>District</label>
                             <select
                                 disabled={!isEditable}
-                                {...register('division', { required: true })}
-                                className="select select-bordered w-full "
-                                onChange={e => setSelectedDivisionId(JSON.parse(e.target.value).id)}
+                                defaultValue=""
+                                className='border rounded w-full p-2'
+                                {...register('District', { required: 'District is required' })}
+                                onChange={e => setSelectedDistrictId(JSON.parse(e.target.value).id)}
                             >
-                                {isEditable ? <option disabled selected>Select Your District:</option> : <option>{dbUser.division}</option>}
-                                {divisions.map(division => (
-                                    isEditable && <option key={division.id} value={JSON.stringify({ id: division.id, name: division.name })}>
-                                        {division.name}
-                                    </option>
-                                ))}
-                            </select>
-                            {errors.division && <span className="text-red-600">Division is required</span>}
-                        </div>
-                        <div className="form-control">
-                            <label className="label">
-                                <span className="label-text">District</span>
-                            </label>
-                            <select disabled={!isEditable} {...register('district', { required: true })} className="select select-bordered w-full ">
-                                {isEditable ? <option disabled selected>Select Your District:</option> : <option>{dbUser.district}</option>}
-                                {filteredDistricts.map(district => (
+                                <option disabled selected>Select Your District:</option>
+                                {districts.map(district => (
+                                    // console district
                                     <option key={district.id} value={JSON.stringify({ id: district.id, name: district.name })}>
                                         {district.name}
                                     </option>
                                 ))}
                             </select>
-                            {errors.district && <span className="text-red-600">District is required</span>}
+                            {errors.District && <p className='text-red-500 text-sm'>{errors.District.message}</p>}
+                        </div>
+                        <div>
+                            <label className='block mb-2'>Upazila</label>
+                            <select
+                                disabled={!isEditable}
+                                defaultValue=""
+                                className='border rounded w-full p-2'
+                                {...register('Upazila', { required: 'Upazila is required' })}
+                            >
+                                <option disabled selected>Select Your Upazilla:</option>
+                                {filteredUpazillas.map(upazilla => (
+                                    // console upazilla
+                                    <option key={upazilla.id} value={JSON.stringify({ id: upazilla.id, name: upazilla.name })}>
+                                        {upazilla.name}
+                                    </option>
+                                ))}
+                            </select>
+                            {errors.Upazila && <p className='text-red-500 text-sm'>{errors.Upazila.message}</p>}
                         </div>
                     </div>
                     <div className="form-control">

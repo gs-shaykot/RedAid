@@ -10,7 +10,7 @@ const useUser = () => {
     const { data: dbUser = [], isPending, refetch } = useQuery({
         queryKey: ['user'],
         queryFn: async () => {
-            const res = await axiosSec.get(`/users?email=${user?.email}`)
+            const res = await axiosSec.get(`/users/filter?email=${user?.email}`)
             return res.data
         }
     })

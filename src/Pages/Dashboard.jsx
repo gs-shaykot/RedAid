@@ -4,7 +4,9 @@ import { ImProfile } from "react-icons/im";
 import { MdSpaceDashboard } from "react-icons/md";
 import { FaHireAHelper } from "react-icons/fa";
 import { MdCreateNewFolder } from "react-icons/md";
+import useisAdmin from '../Hooks/useisAdmin';
 const Dashboard = () => {
+    const [isAdmin] = useisAdmin()
     return (
         <div className='flex'>
             {/* SIDEBAR */}
@@ -31,24 +33,45 @@ const Dashboard = () => {
                                 </label>
                             </div>
                             <div className="hidden flex-none lg:block">
-                                <ul className="menu flex-col menu-horizontal gap-3">
-                                    {/* Navbar menu content here */}
-                                    <li>
-                                        <NavLink to='profile'><ImProfile />My Profile</NavLink>
-                                    </li>
-                                    <li>
+                                {
+                                    isAdmin ?
+                                        <ul className="menu flex-col menu-horizontal gap-3">
+                                            <li>
+                                                <NavLink to='profile'><ImProfile />My Profile</NavLink>
+                                            </li>
+                                            <li>
+                                                <NavLink to='adminDashboard'><MdSpaceDashboard />Dashboard</NavLink>
+                                            </li>
+                                            <li>
 
-                                        <NavLink to='main'><MdSpaceDashboard />Dashboard</NavLink>
-                                    </li>
-                                    <li>
+                                                <NavLink to='alluser'><FaHireAHelper />All Users</NavLink>
+                                            </li>
+                                            <li>
+                                                <NavLink to='allBloodReq'><MdCreateNewFolder />All Blood Requests</NavLink>
+                                            </li>
+                                            <li>
+                                                <NavLink to='contentMng'><MdCreateNewFolder />Content Management</NavLink>
+                                            </li>
+                                        </ul>
+                                        :
+                                        <ul className="menu flex-col menu-horizontal gap-3">
+                                            {/* Navbar menu content here */}
+                                            <li>
+                                                <NavLink to='profile'><ImProfile />My Profile</NavLink>
+                                            </li>
+                                            <li>
+                                                <NavLink to='main'><MdSpaceDashboard />Dashboard</NavLink>
+                                            </li>
+                                            <li>
 
-                                        <NavLink to='MyRequest'><FaHireAHelper />My Donation Requests</NavLink>
-                                    </li>
-                                    <li>
+                                                <NavLink to='MyRequest'><FaHireAHelper />My Donation Requests</NavLink>
+                                            </li>
+                                            <li>
 
-                                        <NavLink to='CreateRequest'><MdCreateNewFolder />Create Donation Requests</NavLink>
-                                    </li>
-                                </ul>
+                                                <NavLink to='CreateRequest'><MdCreateNewFolder />Create Donation Requests</NavLink>
+                                            </li>
+                                        </ul>
+                                }
                                 <div className="divider divider-neutral">Or</div>
                                 <ul className="menu flex-col menu-horizontal">
                                     {/* Navbar menu content here */}
@@ -60,12 +83,18 @@ const Dashboard = () => {
 
                                         <NavLink to='/donationRqst'><MdSpaceDashboard />Donation Request</NavLink>
                                     </li>
+                                    {
+                                        isAdmin ?
+                                            <li>
+
+                                                <NavLink to='CreateRequest'><MdCreateNewFolder />Create Donation Requests</NavLink>
+                                            </li> :
+                                            <li>
+                                                <NavLink to='/blogs'><MdCreateNewFolder />Blogs</NavLink>
+                                            </li>
+                                    }
                                     <li>
 
-                                        <NavLink to='/login'><FaHireAHelper />Logout</NavLink>
-                                    </li>
-                                    <li>
-                                        
                                         <NavLink to='/funding'><MdCreateNewFolder />Donate Funding</NavLink>
                                     </li>
                                 </ul>
@@ -75,10 +104,23 @@ const Dashboard = () => {
                     </div>
                     <div className="drawer-side">
                         <label htmlFor="my-drawer-3" aria-label="close sidebar" className="drawer-overlay"></label>
-                        <ul className="menu bg-base-200 min-h-full w-80 p-4">
-                            {/* Sidebar content here */}
-                            <li><a>Sidebar Item 1</a></li>
-                            <li><a>Sidebar Item 2</a></li>
+                        <ul className="menu bg-base-200 min-h-full w-80 p-4 gap-2">
+                            {/* Navbar menu content here */}
+                            <li>
+                                <NavLink to='profile'><ImProfile />My Profile</NavLink>
+                            </li>
+                            <li>
+
+                                <NavLink to='main'><MdSpaceDashboard />Dashboard</NavLink>
+                            </li>
+                            <li>
+
+                                <NavLink to='MyRequest'><FaHireAHelper />My Donation Requests</NavLink>
+                            </li>
+                            <li>
+
+                                <NavLink to='CreateRequest'><MdCreateNewFolder />Create Donation Requests</NavLink>
+                            </li>
                         </ul>
                     </div>
                 </div>

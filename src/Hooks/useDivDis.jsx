@@ -2,18 +2,18 @@ import React, { useEffect, useState } from 'react';
 
 const useDivDis = () => {
     const [districts, setDistricts] = useState([]);
-    const [divisions, setDivisions] = useState([]); 
+    const [upazillas, setUpazillas] = useState([]); 
 
     useEffect(() => {
         fetch('/districts.json')
             .then(res => res.json())
             .then(data => setDistricts(data));
 
-        fetch('/divisions.json')
+        fetch('/upazillas.json')
             .then(res => res.json())
-            .then(data => setDivisions(data));
+            .then(data => setUpazillas(data));
     }, []); 
-    return [districts, divisions]
+    return [districts, upazillas]
 };
 
 export default useDivDis;

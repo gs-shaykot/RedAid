@@ -1,4 +1,4 @@
-1: Active green dot at profile  
-4: use axiosSecure instead of axios
+1: Active green dot at profile   
 5: style the welcome section (placing logo)
 6: apply district & Upazilla in instead of district and division in register.
+7: donate button not working

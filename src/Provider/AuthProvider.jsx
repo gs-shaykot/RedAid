@@ -3,14 +3,14 @@ import React, { createContext, useEffect, useState } from 'react';
 import auth from './firebase';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth';
 import axios from 'axios';
-import useAxiosPublic from '../Hook/useAxiosPublic';
+import useAxiosPublic from '../Hooks/useAxiosPublic';
 
 export const AuthContext = createContext()
 
 const AuthProvider = ({ children }) => {
     const [user, setUser] = useState();
     const [loader, setLoader] = useState(true);
-    const axiosPub=useAxiosPublic()
+    const axiosPub = useAxiosPublic()
     const createUser = (email, password) => {
         setLoader(true);
         return createUserWithEmailAndPassword(auth, email, password);
@@ -30,8 +30,7 @@ const AuthProvider = ({ children }) => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser);
             if (currentUser) {
-                setLoader(false)
-                console.log(currentUser)
+                setLoader(false) 
                 const user = { Name: currentUser.displayName, email: currentUser.email }
                 axiosPub.post('/jwt', user, { withCredentials: true })
                     .then(data => {
@@ -41,7 +40,7 @@ const AuthProvider = ({ children }) => {
                 console.log("No user signed in");
                 axiosPub.post('/jwtlogout  ', {}, { withCredentials: true })
                     .then(data => {
-                        console.log(data)
+                        console.log(data.status)
                     })
                 setLoader(false)
             }

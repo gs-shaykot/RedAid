@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import Countdown from "react-countdown"; // Added: Importing the `react-countdown` library to create a countdown timer.
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import { BsCalendarDateFill } from "react-icons/bs";
 import { CgSandClock } from "react-icons/cg";
 import { FaClock } from "react-icons/fa";
@@ -9,12 +9,11 @@ import { AuthContext } from "../Provider/AuthProvider";
 import useRequests from "../Hooks/useRequests";
 import Swal from "sweetalert2";
 
-const DetailsData = () => {
-    const DetailsData = useLoaderData();
-    console.log(DetailsData)
+const RequestDetails = () => {
+    const DetailsData = useLoaderData(); 
     const axiosSec = useSecure()
     const { user } = useContext(AuthContext)
-    const [{ Requests, isPending, refetch }] = useRequests()
+    const [{ refetch }] = useRequests()
     const countdownRenderer = ({ days, hours, minutes, seconds, completed }) => {
         if (completed) {
             return <span className="text-red-600 font-bold">Time is up!</span>;
@@ -26,21 +25,34 @@ const DetailsData = () => {
             );
         }
     };
-
+ 
+    const navigate = useNavigate()
     const handleDonate = (id) => {
         const userInfo = {
             DonarName: user?.displayName, DonorEmail: user?.email, donationStatus: "inprogress"
-        }
-        console.log(userInfo)
+        } 
+        const { _id: ReqID, ...restDetailsData } = DetailsData.data;
+        const Donator = {
+            ReqID,
+            ...restDetailsData, // Include all other properties except _id
+            DonarName: user?.displayName,
+            DonorEmail: user?.email,
+            donationStatus: "inprogress",
+        }; 
+
+        
         axiosSec.patch(`/requests/${id}`, userInfo)
             .then(res => {
-                axiosSec.post()
-                    Swal.fire({
-                        title: "Thanks for your kindness",
-                        text: "Registered for donations",
-                        icon: "success"
-                    });
                 refetch()
+                axiosSec.post('/donar', Donator)
+                    .then(res => {
+                        Swal.fire({
+                            title: "Thanks for your kindness",
+                            text: "Registered for donations",
+                            icon: "success"
+                        });
+                        navigate('/dashboard/main')
+                    })
             })
     }
 
@@ -50,8 +62,8 @@ const DetailsData = () => {
             <div className="flex justify-between items-center mb-4">
                 <h1 className="text-2xl font-semibold">Blood Donation Request Details</h1>
                 <div className="flex items-center space-x-2">
-                    <p className="text-lg font-medium">Group: <span className="text-red-500">{DetailsData?.bloodGroup}</span></p>
-                    <span className="badge badge-warning">{DetailsData?.donationStatus}</span>
+                    <p className="text-lg font-medium">Group: <span className="text-red-500">{DetailsData.data?.bloodGroup}</span></p>
+                    <span className="badge badge-warning">{DetailsData.data?.donationStatus}</span>
                 </div>
             </div>
 
@@ -61,7 +73,7 @@ const DetailsData = () => {
                     <p className="font-medium">Donation Needed By</p>
                     <p className="flex gap-2 items-center text-lg">
                         <BsCalendarDateFill />
-                        {DetailsData?.donationDate}
+                        {DetailsData.data?.donationDate}
                     </p>
                 </div>
                 <div>
@@ -70,7 +82,7 @@ const DetailsData = () => {
                         <CgSandClock />
 
                         <Countdown
-                            date={new Date(DetailsData?.donationDate)}
+                            date={new Date(DetailsData.data?.donationDate)}
                             renderer={countdownRenderer}
                         />
                     </p>
@@ -83,21 +95,21 @@ const DetailsData = () => {
                 <div className="grid grid-cols-2 gap-7">
                     <div>
                         <p>Recipient Name:</p>
-                        <p className="font-medium">{DetailsData?.recipientName}</p>
+                        <p className="font-medium">{DetailsData.data?.recipientName}</p>
                     </div>
                     <div>
                         <p>Location:</p>
                         <p className="font-medium">
-                            {DetailsData?.recipientUpazila}, {DetailsData?.recipientDistrict}
+                            {DetailsData.data?.recipientUpazila}, {DetailsData.data?.recipientDistrict}
                         </p>
                     </div>
                     <div>
                         <p>Hospital:</p>
-                        <p className="font-medium">{DetailsData?.hospitalName}</p>
+                        <p className="font-medium">{DetailsData.data?.hospitalName}</p>
                     </div>
                     <div>
                         <p>Full Address:</p>
-                        <p className="font-medium">{DetailsData?.fullAddress}</p>
+                        <p className="font-medium">{DetailsData.data?.fullAddress}</p>
                     </div>
                 </div>
             </div>
@@ -106,10 +118,10 @@ const DetailsData = () => {
             <div className="mb-6">
                 <h2 className="text-lg font-semibold mb-2">Request Details</h2>
                 <div className="bg-gray-100 p-6 rounded-md">
-                    <p className="italic">{`"${DetailsData?.requestMessage}"`}</p>
+                    <p className="italic">{`"${DetailsData.data?.requestMessage}"`}</p>
                     <p className="text-sm text-gray-500 flex items-center gap-2">
                         <FaClock className="text-lg" />
-                        <span>Requested on {DetailsData?.createdDate}</span>
+                        <span>Requested on {DetailsData.data?.createdDate}</span>
                     </p>
                 </div>
             </div>
@@ -120,20 +132,28 @@ const DetailsData = () => {
                 <div className="grid grid-cols-2 bg-gray-100 py-8 rounded-md px-5">
                     <p>
                         <p>Name:</p>
-                        <p className="font-medium">{DetailsData?.requesterName}</p>
+                        <p className="font-medium">{DetailsData.data?.requesterName}</p>
                     </p>
                     <p>
                         <p>Email:</p>
-                        <p className="font-medium">{DetailsData?.requesterEmail}</p>
+                        <p className="font-medium">{DetailsData.data?.requesterEmail}</p>
                     </p>
                 </div>
             </div>
 
+            {DetailsData.DonorEmail ?
+                <h1 className="text-red-500">Already someone has donated, Contact Requester before Donate</h1> : ""
+            }
             {/* Action Buttons */}
             <div className="grid grid-cols-3 gap-4 mt-4">
-                <button onClick={() => handleDonate(DetailsData._id)} className="btn btn-primary bg-red-600 text-white border-0">
-                    Donate Now
-                </button>
+                {
+                    (DetailsData.data?.requesterEmail === user?.email) ?
+                        <button className="btn btn-primary bg-red-600 text-white border-0">Can't Donate to own post</button>
+                        :
+                        <button onClick={() => handleDonate(DetailsData.data._id)} className="btn btn-primary bg-red-600 text-white border-0">
+                            Donate Now
+                        </button>
+                }
                 <button className="btn btn-outline border-2 border-red-500">Share Request</button>
                 <button className="btn btn-secondary bg-black border-0">
                     Contact Requester
@@ -143,4 +163,4 @@ const DetailsData = () => {
     );
 };
 
-export default DetailsData;
+export default RequestDetails;

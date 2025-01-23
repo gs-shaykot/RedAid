@@ -1,14 +1,13 @@
 import useSecure from './useSecure';
 import { useQuery } from '@tanstack/react-query';
 
-const useAllReqs = () => {
+const useAllReqs = (donationStatus) => {
     const axiosSec = useSecure()
     const { data: AllReq = [], isPending, refetch } = useQuery({
-        queryKey: ['AllReq'],
+        queryKey: ['AllReq',donationStatus],
         queryFn: async () => {
             const res = await axiosSec.get('/requests');
-            console.log(res.data)
-            return res.data
+            return res.data.filter(data => !donationStatus || data.donationStatus === donationStatus)
         }
     })
     return [AllReq, isPending, refetch]

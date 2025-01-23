@@ -1,60 +1,75 @@
+// place a counter on the table in TH
 import React from 'react';
 import Welcome from '../../../Components/Welcome';
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 import { MdDeleteForever } from "react-icons/md";
 import { MdEditSquare } from "react-icons/md";
-import useRequests from '../../../Hooks/useRequests';
 import Swal from 'sweetalert2';
+import SlotCounter from 'react-slot-counter';
 import useSecure from '../../../Hooks/useSecure';
 import { Link } from 'react-router-dom';
 import { BiSolidDetail } from "react-icons/bi";
+import useAllReqs from '../../../Hooks/useAllReqs';
+import { FaUsers } from "react-icons/fa6";
+import { FaHandHoldingUsd } from "react-icons/fa";
+import { MdBloodtype } from "react-icons/md";
+import useAllUser from '../../../Hooks/useAllUser';
+import useRecentReq from '../../../Hooks/useRecentReq';
 
-const MyRequest = () => {
-    const [{ Requests, isPending, refetch }] = useRequests()
-    const axiosSec = useSecure()
-
-    const handleDeleteReq = (id) => {
-        Swal.fire({
-            title: "Are you sure?",
-            text: "You won't be able to revert this!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, delete it!"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                axiosSec.delete(`/requests/${id}`)
-                    .then(() => {
-                        Swal.fire({
-                            title: "Deleted!",
-                            text: "Your file has been deleted.",
-                            icon: "success"
-                        });
-                        refetch()
-                    }
-                    )
-            }
-        });
-    }
-
+const AdminDashboard = () => {
+    const [Alluser] = useAllUser()
+    const [AllReq] = useAllReqs()
+    const { RecentReq, isLoading, refetch } = useRecentReq()
     return (
-        <div className='bg-gray-100 px-5'>
-            <div>
+        <div className='bg-gray-100 h-screen'>
+            <div className='bg-white'>
                 <Welcome />
             </div>
-            <div className='w-full box-border p-10 mx-auto bg-white shadow rounded-md'>
-                <div className='liear-bg w-full h-28 rounded-t-md'></div>
-                <div className='py-6 flex justify-between  items-center'>
-                    <div>
-                        <h1 className='font-semibold text-3xl'>My All Requests</h1>
+            <div className='grid grid-cols-3 gap-3 mt-5 w-[95%] box-border mx-auto '>
+                <div className='bg-white p-5 flex gap-3 items-center'>
+                    <div className='p-2 bg-red-500 rounded-full'>
+                        <FaUsers className='text-white text-xl' />
                     </div>
                     <div>
-                        <h1>ToDo: Filtering option goes here</h1>
+                        <h1 className='font-medium text-'>Total Users</h1>
+                        <h1 className='text-2xl font-bold'>
+                            <SlotCounter value={Alluser.length} />
+                        </h1>
                     </div>
                 </div>
-
+                <div className='bg-white p-5 flex gap-3 items-center'>
+                    <div className='p-2 bg-red-500 rounded-full'>
+                        <FaHandHoldingUsd className='text-white text-xl' />
+                    </div>
+                    <div>
+                        <h1 className='font-medium text-'>Total Fundings</h1>
+                        <h1 className='text-2xl font-bold'>
+                            $<SlotCounter value={123456} />
+                        </h1>
+                    </div>
+                </div>
+                <div className='bg-white p-5 flex gap-3 items-center'>
+                    <div className='p-2 bg-red-500 rounded-full'>
+                        <MdBloodtype className='text-white text-xl' />
+                    </div>
+                    <div>
+                        <h className='font-medium text-'>Total Donation Requests</h>
+                        <h1 className='text-2xl font-bold'>
+                            <SlotCounter value={AllReq.length} />
+                        </h1>
+                    </div>
+                </div>
+            </div>
+            <div className='container mx-auto px-5'>
+                <div className='py-6 flex justify-between'>
+                    <div>
+                        <h1 className='font-semibold text-3xl'>My Recent Requests</h1>
+                    </div>
+                    <div>
+                        <h1> Pagination Design & Filter here </h1>
+                    </div>
+                </div>
                 <Table>
                     <Thead>
                         <Tr>
@@ -71,7 +86,7 @@ const MyRequest = () => {
                     </Thead>
                     <Tbody className='text-center'>
                         {
-                            Requests.map(data => (
+                            RecentReq.map(data => (
                                 <Tr key={data._id}>
                                     <Td className='border border-gray-300 p-1'>{data.recipientName}</Td>
                                     <Td className='border border-gray-300 p-1'>
@@ -108,12 +123,14 @@ const MyRequest = () => {
                         }
                     </Tbody>
                 </Table>
-                <div className='flex justify-center my-4'>
-                    <h1>ToDo: Pagination goes here</h1>
-                </div>
             </div>
-        </div>
+            <div>
+                <Link to='/dashboard/MyRequest' className='flex justify-center items-center pt-5'>
+                    <h1 className='btn bg-transparent hover:bg-red-500 hover:text-white border-1 border-red-500'>View All Request</h1>
+                </Link>
+            </div>
+        </div >
     );
 };
 
-export default MyRequest; 
+export default AdminDashboard; 
