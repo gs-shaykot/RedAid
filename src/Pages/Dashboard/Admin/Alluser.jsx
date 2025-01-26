@@ -12,11 +12,41 @@ import useSecure from '../../../Hooks/useSecure';
 import Swal from 'sweetalert2';
 
 const Alluser = () => {
-    const [statusFilter, setStatusFilter] = useState()
-    const [Alluser, isPending, refetch] = useAllUser(statusFilter);
+    const [itemsPerPage, setItemsPerPage] = useState(10)
+    const [currentPage, setCurrentPage] = useState(0)
+
+    const [statusFilter, setStatusFilter] = useState('')
+    const { Alluser, userCount, isPending, refetch } = useAllUser(statusFilter, currentPage, itemsPerPage);
     const [isAdmin] = useAdmin();
     const axiosSec = useSecure();
-    console.log(Alluser)
+
+    if (isPending) {
+        return <span className="loading loading-dots loading-lg"></span>
+    }
+
+    // PAGNIATION:  
+    const NoOfPage = Math.ceil(userCount / itemsPerPage)
+    const pages = [...Array(NoOfPage).keys()]
+
+    const handlePrev = () => {
+        if (currentPage > 0) {
+            setCurrentPage(currentPage - 1)
+        }
+    }
+
+    const handleNext = () => {
+        if (currentPage < pages.length - 1) {
+            setCurrentPage(currentPage + 1)
+        }
+    }
+
+    const handleItemChange = (e) => {
+        const Num = parseInt(e.target.value)
+        console.log(Num)
+        setItemsPerPage(Num)
+        setCurrentPage(0)
+    }
+
     const handleStatus = ({ id, action }) => {
         if (action === 'blocked' || action === 'active') {
             axiosSec.patch(`/users/${id}`, { status: action })
@@ -45,7 +75,7 @@ const Alluser = () => {
     const handleStatusChange = (e) => {
         setStatusFilter(e.target.value)
     }
-    
+
     return (
         <div className='bg-gray-100 px-5 pb-10'>
             <div>
@@ -68,11 +98,11 @@ const Alluser = () => {
                                 </option>
                                 <option value="blocked">
                                     Blocked
-                                </option> 
+                                </option>
                             </select>
                         </div>
                         {
-                            isPending ? <span className="loading loading-dots loading-md"></span>:''
+                            isPending ? <span className="loading loading-dots loading-md"></span> : ''
                         }
                     </div>
                     <Table>
@@ -170,8 +200,26 @@ const Alluser = () => {
                             ))}
                         </Tbody>
                     </Table>
-                    <div className='flex justify-center items-center mt-6'>
-                        <h1>Todo: Pagination Goes here:</h1>
+                    <div >
+                        <div className='flex justify-center my-4 gap-3'>
+                            <button onClick={handlePrev} className='btn'>Prev</button>
+                            {
+                                pages.map(page => (
+                                    <button
+                                        onClick={() => setCurrentPage(page)}
+                                        className={currentPage === page ? 'selected join-item btn btn-square' : 'join-item btn btn-square'}
+                                        key={page}>{page + 1}</button>
+                                ))
+                            }
+                            <button onClick={handleNext} className='btn'>Next</button>
+                            <select defaultValue={10} className='select select-info' onChange={handleItemChange}>
+                                <option disabled>Select</option>
+                                <option value="5">5</option>
+                                <option value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="50">50</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>

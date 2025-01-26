@@ -18,8 +18,8 @@ import useAllUser from '../../../Hooks/useAllUser';
 import useRecentReq from '../../../Hooks/useRecentReq';
 
 const AdminDashboard = () => {
-    const [Alluser] = useAllUser()
-    const [AllReq] = useAllReqs()
+    const { Alluser } = useAllUser()
+    const { AllReq } = useAllReqs()
     const { RecentReq, isLoading, refetch } = useRecentReq()
     return (
         <div className='bg-gray-100 h-screen'>

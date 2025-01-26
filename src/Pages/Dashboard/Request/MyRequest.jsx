@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Welcome from '../../../Components/Welcome';
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
@@ -11,8 +11,39 @@ import { Link } from 'react-router-dom';
 import { BiSolidDetail } from "react-icons/bi";
 
 const MyRequest = () => {
-    const [{ Requests, isPending, refetch }] = useRequests()
+
+    const [itemsPerPage, setItemsPerPage] = useState(10)
+    const [currentPage, setCurrentPage] = useState(0)
+    const [donationStatus, setDonationStatus] = useState('');
+    const { Requests, rqstCount, isPending, refetch } = useRequests(donationStatus, currentPage, itemsPerPage)
     const axiosSec = useSecure()
+    console.log(rqstCount)
+    if (isPending) {
+        return <span className="loading loading-dots loading-lg"></span>
+    }
+    // PAGNIATION:  
+    const NoOfPage = Math.ceil(rqstCount / itemsPerPage)
+    const pages = [...Array(NoOfPage).keys()]
+
+    const handlePrev = () => {
+        if (currentPage > 0) {
+            setCurrentPage(currentPage - 1)
+        }
+    }
+
+    const handleNext = () => {
+        if (currentPage < pages.length - 1) {
+            setCurrentPage(currentPage + 1)
+        }
+    }
+
+    const handleItemChange = (e) => {
+        const Num = parseInt(e.target.value)
+        console.log(Num)
+        setItemsPerPage(Num)
+        setCurrentPage(0)
+    }
+
 
     const handleDeleteReq = (id) => {
         Swal.fire({
@@ -39,6 +70,10 @@ const MyRequest = () => {
         });
     }
 
+    const handleStatusChange = (event) => {
+        setDonationStatus(event.target.value);
+    };
+
     return (
         <div className='bg-gray-100 px-5'>
             <div>
@@ -51,10 +86,27 @@ const MyRequest = () => {
                         <h1 className='font-semibold text-3xl'>My All Requests</h1>
                     </div>
                     <div>
-                        <h1>ToDo: Filtering option goes here</h1>
+                        <select
+                            className='select select-bordered w-48'
+                            value={donationStatus}
+                            onChange={handleStatusChange}
+                        >
+                            <option value="">All</option>
+                            <option value="done">
+                                Done
+                            </option>
+                            <option value="pending">
+                                Pending
+                            </option>
+                            <option value="cancel">
+                                Cancel
+                            </option>
+                        </select>
                     </div>
                 </div>
-
+                {
+                    isPending ? <span className="loading loading-dots loading-md"></span> : ''
+                }
                 <Table>
                     <Thead>
                         <Tr>
@@ -109,7 +161,26 @@ const MyRequest = () => {
                     </Tbody>
                 </Table>
                 <div className='flex justify-center my-4'>
-                    <h1>ToDo: Pagination goes here</h1>
+
+                    <div className='flex justify-center my-4 gap-3'>
+                        <button onClick={handlePrev} className='btn'>Prev</button>
+                        {
+                            pages.map(page => (
+                                <button
+                                    onClick={() => setCurrentPage(page)}
+                                    className={currentPage === page ? 'selected join-item btn btn-square' : 'join-item btn btn-square'}
+                                    key={page}>{page + 1}</button>
+                            ))
+                        }
+                        <button onClick={handleNext} className='btn'>Next</button>
+                        <select defaultValue={10} className='select select-info' onChange={handleItemChange}>
+                            <option disabled>Select</option>
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="50">50</option>
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>

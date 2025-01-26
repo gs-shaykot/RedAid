@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useContext, useEffect } from "react";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../Provider/AuthProvider";
 
 const AxiosSecure = axios.create({
@@ -14,16 +14,16 @@ const useSecure = () => {
     useEffect(() => {
         AxiosSecure.interceptors.response.use(response => {
             return response
-        }, error => { 
+        }, error => {
             if (error.status === 401 || error.status === 403) {
                 LogOut()
-                    .then(res => { 
+                    .then(res => {
+                        navigate('/login')
                         Swal.fire({
                             title: "Warning",
                             text: "Logged out For forbidden access",
                             icon: "warning"
                         })
-                        navigate('/login')
                     })
                     .catch(error => (
                         console.log(error.message)

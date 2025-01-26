@@ -14,11 +14,40 @@ import useSecure from '../../Hooks/useSecure';
 import Swal from 'sweetalert2';
 
 const DashBoardMain = () => {
+    const [itemsPerPage, setItemsPerPage] = useState(10)
+    const [currentPage, setCurrentPage] = useState(0)
 
     const { RecentReq, isLoading, refetch } = useRecentReq()
-    const { donating, isPending, refetch: DonatorRefetch, donarCount } = useDonating()
+    const { donating, isPending, refetch: DonatorRefetch, donarCount } = useDonating(currentPage, itemsPerPage)
+
+    if (isPending) {
+        return <span className="loading loading-dots loading-lg"></span>
+    }
 
     const axiosSec = useSecure()
+
+    // PAGNIATION:  
+    const NoOfPage = Math.ceil(donarCount / itemsPerPage)
+    const pages = [...Array(NoOfPage).keys()]
+
+    const handlePrev = () => {
+        if (currentPage > 0) {
+            setCurrentPage(currentPage - 1)
+        }
+    }
+
+    const handleNext = () => {
+        if (currentPage < pages.length - 1) {
+            setCurrentPage(currentPage + 1)
+        }
+    }
+
+    const handleItemChange = (e) => {
+        const Num = parseInt(e.target.value)
+        console.log(Num)
+        setItemsPerPage(Num)
+        setCurrentPage(0)
+    }
 
 
     const handleDeleteReq = (id) => {
@@ -157,6 +186,25 @@ const DashBoardMain = () => {
                                 </Tbody>
                             </Table>
                             <div >
+                                <div className='flex justify-center my-4 gap-3'>
+                                    <button onClick={handlePrev} className='btn'>Prev</button>
+                                    {
+                                        pages.map(page => (
+                                            <button
+                                                onClick={() => setCurrentPage(page)}
+                                                className={currentPage === page ? 'selected join-item btn btn-square' : 'join-item btn btn-square'}
+                                                key={page}>{page + 1}</button>
+                                        ))
+                                    }
+                                    <button onClick={handleNext} className='btn'>Next</button>
+                                    <select defaultValue={10} className='select select-info' onChange={handleItemChange}>
+                                        <option disabled>Select</option>
+                                        <option value="5">5</option>
+                                        <option value="10">10</option>
+                                        <option value="20">20</option>
+                                        <option value="50">50</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                         :

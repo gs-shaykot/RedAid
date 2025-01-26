@@ -35,6 +35,9 @@ import Alluser from './Pages/Dashboard/Admin/Alluser.jsx';
 import AllBloodReq from './Pages/Dashboard/Admin/AllBloodReq.jsx';
 import ContentMng from './Pages/Dashboard/Admin/ContentMng.jsx';
 import axios from 'axios';
+import PostBlog from './Pages/Dashboard/Admin/PostBlog.jsx';
+import BlogsDtl from './Pages/BlogsDtl.jsx';
+import EditPost from './Pages/Dashboard/Admin/EditBlog.jsx';
 
 export const router = createBrowserRouter([
   {
@@ -65,6 +68,11 @@ export const router = createBrowserRouter([
       {
         path: '/blogs',
         element: <PrivateRoute><Blogs></Blogs></PrivateRoute>
+      },
+      {
+        path: '/blogs/:id',
+        loader: ({ params }) => axios.get(`http://localhost:5000/blogs/${params.id}`, { withCredentials: true }),
+        element: <PrivateRoute><BlogsDtl /></PrivateRoute>
       },
       {
         path: '/reqUpdate/:id',
@@ -106,6 +114,14 @@ export const router = createBrowserRouter([
           {
             path: 'contentMng',
             element: <AdminRoute><ContentMng></ContentMng></AdminRoute>
+          },
+          {
+            path: 'addBlog',
+            element: <AdminRoute><PostBlog></PostBlog></AdminRoute>
+          },
+          {
+            path: 'Editblog/:id',
+            element: <AdminRoute><EditPost/></AdminRoute>
           },
         ]
       },

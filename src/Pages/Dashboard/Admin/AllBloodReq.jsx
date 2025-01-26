@@ -1,4 +1,3 @@
-// place a counter on the table in TH
 import React, { useState } from 'react';
 import Welcome from '../../../Components/Welcome';
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
@@ -12,9 +11,38 @@ import { BiSolidDetail } from "react-icons/bi";
 import useAllReqs from '../../../Hooks/useAllReqs';
 
 const AllBloodReq = () => {
+
+    const [itemsPerPage, setItemsPerPage] = useState(10)
+    const [currentPage, setCurrentPage] = useState(0)
+
     const [donationStatus, setDonationStatus] = useState('');
-    const [AllReq, isPending, refetch] = useAllReqs(donationStatus)
+    const { AllReq, totalCount, isPending, refetch } = useAllReqs(donationStatus, currentPage, itemsPerPage)
     const axiosSec = useSecure()
+    if (isPending) {
+        return <span className="loading loading-dots loading-lg"></span>
+    }
+    // PAGNIATION:  
+    const NoOfPage = Math.ceil(totalCount / itemsPerPage)
+    const pages = [...Array(NoOfPage).keys()]
+
+    const handlePrev = () => { 
+        if (currentPage > 0) {
+            setCurrentPage(currentPage - 1)
+        }
+    }
+
+    const handleNext = () => { 
+        if (currentPage < pages.length - 1) {
+            setCurrentPage(currentPage + 1)
+        }
+    }
+
+    const handleItemChange = (e) => { 
+        const Num = parseInt(e.target.value)
+        console.log(Num)
+        setItemsPerPage(Num)
+        setCurrentPage(0)
+    }
 
     const handleDeleteReq = (id) => {
         Swal.fire({
@@ -129,8 +157,26 @@ const AllBloodReq = () => {
                     </Tbody>
                 </Table>
 
-                <div className='flex justify-center my-4'>
-                    <h1>ToDo: Pagination goes here</h1>
+                <div >
+                    <div className='flex justify-center my-4 gap-3'>
+                        <button onClick={handlePrev} className='btn'>Prev</button>
+                        {
+                            pages.map(page => (
+                                <button
+                                    onClick={() => setCurrentPage(page)}
+                                    className={currentPage === page ? 'selected join-item btn btn-square' : 'join-item btn btn-square'}
+                                    key={page}>{page+1}</button>
+                            ))
+                        }
+                        <button onClick={handleNext} className='btn'>Next</button>
+                        <select defaultValue={10} className='select select-info' onChange={handleItemChange}>
+                            <option disabled>Select</option>
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="50">50</option>
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>

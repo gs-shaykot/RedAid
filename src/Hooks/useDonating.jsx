@@ -9,11 +9,12 @@ const useDonating = () => {
     const { data: donating = [], isPending, refetch } = useQuery({
         queryKey: ['donating'],
         queryFn: async () => {
-            const res = await axiosSec.get(`/donar?email=${user?.email}`); 
+            const res = await axiosSec.get(`/donar?email=${user?.email}`);
             return res.data
+
         }
     })
-    return [{ donating, isPending, refetch }]
+    return { donating, isPending, refetch }
 };
 
 export default useDonating;
