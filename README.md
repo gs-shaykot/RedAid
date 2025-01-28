@@ -1,7 +1,5 @@
 # 🩸 Blood Donation Application
 
-📽️ **Requirement Explanation Video** 📽️
-
 ---
 
 ## **Objective**
