@@ -1,7 +1,7 @@
 // fix the code.
 import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import Swal from 'sweetalert2'; 
+import Swal from 'sweetalert2';
 import { AuthContext } from '../Provider/AuthProvider';
 import { useNavigate, useParams } from 'react-router-dom';
 import useAllReqs from '../Hooks/useAllReqs';
@@ -18,7 +18,7 @@ const UpdateRequest = () => {
     const [districts, setDistricts] = useState([]);
     const [upazillas, setUpazilla] = useState([]);
     const navigate = useNavigate()
-    const [AllReq, isPending, refetch] = useAllReqs()
+    const { AllReq, totalCount, isPending, refetch } = useAllReqs()
 
     useEffect(() => {
         fetch('/districts.json')

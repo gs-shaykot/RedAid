@@ -1,4 +1,4 @@
-// why data is not apdating ?
+// make this page
 import React, { useState } from 'react';
 import Welcome from '../../../Components/Welcome';
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';

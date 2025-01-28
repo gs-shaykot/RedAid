@@ -1,4 +1,3 @@
-// check the code has any error
 import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from "react-hook-form";
 import { AuthContext } from '../Provider/AuthProvider';
@@ -28,9 +27,8 @@ const Register = () => {
 
     const [SelectDistrictId, setSelectedDistrictId] = useState(null);
     const [districts, upazillas] = useDivDis()
-    const filteredUpazillas = SelectDistrictId ?
+    const filteredUpazillas = SelectDistrictId ? 
         upazillas.filter(upazilla => upazilla.district_id == SelectDistrictId) : []
-
 
     const onSubmit = async (data, e) => {
         console.log(data)
@@ -50,18 +48,6 @@ const Register = () => {
             role: "donar",
             status: "active"
         };
-
-        {/*
-            *FinalData.name
-            *FinalData.email
-            *FinalData.password
-            *FinalData.role
-            *FinalData.group
-            *FinalData.division
-            *FinalData.district
-            *FinalData.status
-            *res.data.data.display_url
-        */}
 
         const imageFile = { image: FinalData.photo[0] }
         const res = await axiosPub.post(IMGURL, imageFile, {
@@ -95,9 +81,7 @@ const Register = () => {
                 updateProfile(auth.currentUser, {
                     displayName: FinalData.name, photoURL: image
                 })
-                    .then(() => {
-                        // 
-                    })
+                    .then(() => {})
                     .catch((error) => {
                         Swal.fire({
                             title: "Updating Failed",
@@ -120,13 +104,13 @@ const Register = () => {
     return (
         <div>
             <div className="hero min-h-screen">
-                <div className="hero-content grid grid-cols-1 lg:grid-cols-2 gap-12 justify-items-center md:justify-items-end">
+                <div className="hero-content grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 justify-items-center md:justify-items-end">
                     <div className="order-2 lg:order-first text-center lg:text-left">
-                        <img src="https://i.ibb.co.com/ZWD8Xvx/blood-donation-concept-illustration-vector-removebg-preview.png" alt="" />
+                        <img className="max-w-full" src="https://i.ibb.co.com/ZWD8Xvx/blood-donation-concept-illustration-vector-removebg-preview.png" alt="" />
                     </div>
 
                     {/* Registration Form */}
-                    <div className="card my-20 bg-base-100 w-11/12 md:w-9/12 shadow-2xl">
+                    <div className="card my-8 lg:my-20 bg-base-100 w-11/12 md:w-9/12 shadow-2xl">
                         <form id='form' className="card-body" onSubmit={handleSubmit(onSubmit)}>
                             <div className="form-control">
                                 <label className="label">
@@ -144,7 +128,7 @@ const Register = () => {
                                 {errors.email && <span className="text-red-600">Email is required</span>}
                             </div>
 
-                            <div className='grid grid-cols-2 gap-2 items-center'>
+                            <div className='grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-2 items-center'>
                                 <div className="form-control">
                                     <label className="label">
                                         <span className="label-text">Photo</span>
@@ -174,7 +158,7 @@ const Register = () => {
                                 </div>
                             </div>
 
-                            <div className='grid grid-cols-2 gap-2'>
+                            <div className='grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-2'>
                                 <div>
                                     <label className='block mb-2'>District</label>
                                     <select
@@ -185,7 +169,6 @@ const Register = () => {
                                     >
                                         <option disabled selected>Select Your District:</option>
                                         {districts.map(district => (
-                                            // console district
                                             <option key={district.id} value={JSON.stringify({ id: district.id, name: district.name })}>
                                                 {district.name}
                                             </option>
@@ -202,7 +185,6 @@ const Register = () => {
                                     >
                                         <option disabled selected>Select Your Upazilla:</option>
                                         {filteredUpazillas.map(upazilla => (
-                                            // console upazilla
                                             <option key={upazilla.id} value={JSON.stringify({ id: upazilla.id, name: upazilla.name })}>
                                                 {upazilla.name}
                                             </option>
@@ -212,7 +194,7 @@ const Register = () => {
                                 </div>
                             </div>
 
-                            <div className='grid grid-cols-2 gap-2'>
+                            <div className='grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-2'>
                                 <div className="form-control">
                                     <label className="label">
                                         <span className="label-text">Password</span>

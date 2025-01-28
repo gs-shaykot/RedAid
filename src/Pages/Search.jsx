@@ -38,7 +38,7 @@ const Search = () => {
         </p>
 
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="grid grid-cols-3 gap-4 mb-7 justify-center">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-7 justify-center">
             {/* Blood Group Selection */}
             <div className="form-control">
               <label className="block mb-2">Blood Group</label>
@@ -109,14 +109,13 @@ const Search = () => {
       </div>
 
       {/* Display Results */}
-      {/* Display Results */}
       <div className="mt-10">
         {isPending ? (
           <p className="text-center">Loading...</p>
         )
           :
           searchRes?.length > 0 ? (
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {searchRes.map((donor) => (
                 <div key={donor.email} className="p-4 shadow rounded bg-white">
                   <img src={donor.image} alt={donor.name} className="w-16 h-16 rounded-full mx-auto" />
@@ -151,6 +150,7 @@ const Search = () => {
                 </div>
               ))}
             </div>
+
           )
             :
             (

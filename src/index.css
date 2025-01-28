@@ -15,7 +15,8 @@
 .liear-bg {
     background: rgb(250, 27, 27);
     background: linear-gradient(174deg, rgba(250, 27, 27, 1) 0%, rgba(255, 255, 255, 0.05) 100%);
-} 
+}
+
 .tooltip-container {
     position: relative;
     display: inline-block;
@@ -65,6 +66,13 @@
 .tooltip-container2:hover .tooltip-content2 {
     display: block;
 }
-.selected{
+
+.selected {
     background-color: #7bff00;
+}
+
+@media screen and (max-width: 40em) {
+    .responsiveTable td .tdBefore {
+        line-height: 10px!important;
+    }
 }

@@ -32,7 +32,8 @@ const NavBar = () => {
                 });
             })
     }
-
+    console.log("ADMIN: ",isAdmin)
+    console.log("Volunteer: ",isVolunteer)
     useEffect(() => {
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 0);
@@ -63,21 +64,41 @@ const NavBar = () => {
                         <ul
                             tabIndex={0}
                             className="menu menu-sm dropdown-content bg-base-100 gap-3 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-                            <li>
-                                <NavLink to='/'>Home</NavLink>
-                            </li>
-                            <li>
-                                <NavLink to='/donationRqst'>Donation Request</NavLink>
-                            </li>
-                            <li>
-                                <NavLink to='/blogs'>Blog</NavLink>
-                            </li>
-                            <li>
-                                <Link to='/login' className=' md:inline-flex btn border-red-500 bg-transparent h-1'>LogIn</Link>
-                            </li>
-                            <li>
-                                <Link to='/register' className=' md:inline-flex btn bg-red-500 text-white h-1'>Register</Link>
-                            </li>
+                            {
+                                user ?
+                                    <>
+                                        <li>
+                                            <NavLink to='/'>Home</NavLink>
+                                        </li>
+                                        <li>
+                                            <NavLink to='/donationRqst'>Donation Request</NavLink>
+                                        </li>
+                                        <li>
+                                            <NavLink to='/blogs'>Blog</NavLink>
+                                        </li>
+                                        <li>
+                                            <NavLink to='/showfunding'>Our Patrons</NavLink>
+                                        </li>
+                                    </> :
+                                    <>
+                                        <li>
+                                            <NavLink to='/'>Home</NavLink>
+                                        </li>
+                                        <li>
+                                            <NavLink to='/donationRqst'>Donation Request</NavLink>
+                                        </li>
+                                        <li>
+                                            <NavLink to='/blogs'>Blog</NavLink>
+                                        </li>
+                                        <li>
+                                            <Link to='/login' className=' md:inline-flex btn border-red-500 bg-transparent h-1'>LogIn</Link>
+                                        </li>
+                                        <li>
+                                            <Link to='/register' className=' md:inline-flex btn bg-red-500 text-white h-1'>Register</Link>
+                                        </li>
+                                    </>
+                            }
+
                         </ul>
                     </div>
 

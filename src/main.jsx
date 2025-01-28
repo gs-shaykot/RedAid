@@ -78,7 +78,7 @@ export const router = createBrowserRouter([
       {
         path: '/requestDtls/:id',
         loader: ({ params }) => axios.get(`https://ass-12-delta.vercel.app/requests/${params.id}`, { withCredentials: true }),
-        element: <RequestDetails></RequestDetails>
+        element: <PrivateRoute><RequestDetails></RequestDetails></PrivateRoute>
       },
       {
         path: '/blogs',

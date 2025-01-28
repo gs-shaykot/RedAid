@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import Countdown from "react-countdown"; // Added: Importing the `react-countdown` library to create a countdown timer.
+import Countdown from "react-countdown";  
 import { useLoaderData, useNavigate } from "react-router-dom";
 import { BsCalendarDateFill } from "react-icons/bs";
 import { CgSandClock } from "react-icons/cg";
@@ -34,7 +34,7 @@ const RequestDetails = () => {
         const { _id: ReqID, ...restDetailsData } = DetailsData.data;
         const Donator = {
             ReqID,
-            ...restDetailsData, // Include all other properties except _id
+            ...restDetailsData, 
             DonarName: user?.displayName,
             DonorEmail: user?.email,
             donationStatus: "inprogress",
@@ -59,16 +59,16 @@ const RequestDetails = () => {
     return (
         <div className="max-w-4xl mx-auto p-6 bg-white shadow-2xl rounded-lg my-20">
             {/* Header Section */}
-            <div className="flex justify-between items-center mb-4">
-                <h1 className="text-2xl font-semibold">Blood Donation Request Details</h1>
-                <div className="flex items-center space-x-2">
+            <div className="flex flex-wrap justify-between items-center mb-4">
+                <h1 className="text-2xl font-semibold w-full sm:w-auto">Blood Donation Request Details</h1>
+                <div className="flex flex-wrap items-center space-x-2">
                     <p className="text-lg font-medium">Group: <span className="text-red-500">{DetailsData.data?.bloodGroup}</span></p>
                     <span className="badge badge-warning">{DetailsData.data?.donationStatus}</span>
                 </div>
             </div>
 
             {/* Donation Needed Section */}
-            <div className="grid grid-cols-2 gap-4 p-4 bg-gray-100 border-2 border-gray-400 rounded-md mb-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 bg-gray-100 border-2 border-gray-400 rounded-md mb-4">
                 <div>
                     <p className="font-medium">Donation Needed By</p>
                     <p className="flex gap-2 items-center text-lg">
@@ -80,7 +80,6 @@ const RequestDetails = () => {
                     <p className="font-medium">Time Remaining</p>
                     <p className="flex gap-2 items-center text-lg">
                         <CgSandClock />
-
                         <Countdown
                             date={new Date(DetailsData.data?.donationDate)}
                             renderer={countdownRenderer}
@@ -92,7 +91,7 @@ const RequestDetails = () => {
             {/* Recipient Information */}
             <div className="mb-6">
                 <h2 className="text-lg font-semibold mb-2">Recipient Information</h2>
-                <div className="grid grid-cols-2 gap-7">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-7">
                     <div>
                         <p>Recipient Name:</p>
                         <p className="font-medium">{DetailsData.data?.recipientName}</p>
@@ -129,7 +128,7 @@ const RequestDetails = () => {
             {/* Requester Information */}
             <div className="mb-6">
                 <h2 className="text-lg font-semibold mb-2">Requester Information</h2>
-                <div className="grid grid-cols-2 bg-gray-100 py-8 rounded-md px-5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 bg-gray-100 py-8 rounded-md px-5">
                     <p>
                         <p>Name:</p>
                         <p className="font-medium">{DetailsData.data?.requesterName}</p>
@@ -141,11 +140,12 @@ const RequestDetails = () => {
                 </div>
             </div>
 
-            {DetailsData.DonorEmail ?
+            {DetailsData.DonorEmail ? 
                 <h1 className="text-red-500">Already someone has donated, Contact Requester before Donate</h1> : ""
             }
+
             {/* Action Buttons */}
-            <div className="grid grid-cols-3 gap-4 mt-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4">
                 {
                     (DetailsData.data?.requesterEmail === user?.email) ?
                         <button className="btn btn-primary bg-red-600 text-white border-0">Can't Donate to own post</button>
