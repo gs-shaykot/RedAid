@@ -106,25 +106,52 @@ const Dashboard = () => {
 
                     </div>
                     <div className="drawer-side">
-                        <label htmlFor="my-drawer-3" aria-label="close sidebar" className="drawer-overlay"></label>
-                        <ul className="menu bg-base-200 min-h-full w-80 p-4 gap-2">
-                            {/* Navbar menu content here */}
-                            <li>
-                                <NavLink to='profile'><ImProfile />My Profile</NavLink>
-                            </li>
-                            <li>
+                        <label htmlFor="my-drawer-3" aria-label="close sidebar" className="drawer-overlay"></label> 
+                        {
+                            isAdmin || isVolunteer ?
+                                <ul  className="menu bg-base-200 min-h-full w-72 p-4 gap-2">
+                                    <li>
+                                        <NavLink to='/'><ImProfile />Home</NavLink>
+                                    </li>
+                                    <li>
+                                        <NavLink to='profile'><ImProfile />My Profile</NavLink>
+                                    </li>
+                                    <li>
+                                        <NavLink to='adminDashboard'><MdSpaceDashboard />Dashboard</NavLink>
+                                    </li>
+                                    <li>
 
-                                <NavLink to='main'><MdSpaceDashboard />Dashboard</NavLink>
-                            </li>
-                            <li>
+                                        <NavLink to='alluser'><FaHireAHelper />All Users</NavLink>
+                                    </li>
+                                    <li>
+                                        <NavLink to='allBloodReq'><MdCreateNewFolder />All Blood Requests</NavLink>
+                                    </li>
+                                    <li>
+                                        <NavLink to='contentMng'><MdCreateNewFolder />Content Management</NavLink>
+                                    </li>
+                                </ul>
+                                :
+                                <ul  className="menu bg-base-200 min-h-full w-72 p-4 gap-2">
+                                    {/* Navbar menu content here */}
+                                    <li>
+                                        <NavLink to='/'><ImProfile />Home</NavLink>
+                                    </li>
+                                    <li>
+                                        <NavLink to='profile'><ImProfile />My Profile</NavLink>
+                                    </li>
+                                    <li>
+                                        <NavLink to='main'><MdSpaceDashboard />Dashboard</NavLink>
+                                    </li>
+                                    <li>
 
-                                <NavLink to='MyRequest'><FaHireAHelper />My Donation Requests</NavLink>
-                            </li>
-                            <li>
+                                        <NavLink to='MyRequest'><FaHireAHelper />My Donation Requests</NavLink>
+                                    </li>
+                                    <li>
 
-                                <NavLink to='CreateRequest'><MdCreateNewFolder />Create Donation Requests</NavLink>
-                            </li>
-                        </ul>
+                                        <NavLink to='CreateRequest'><MdCreateNewFolder />Create Donation Requests</NavLink>
+                                    </li>
+                                </ul>
+                        }
                     </div>
                 </div>
             </div>
