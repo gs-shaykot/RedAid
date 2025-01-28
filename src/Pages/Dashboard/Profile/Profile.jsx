@@ -23,6 +23,7 @@ const Profile = () => {
 
     const { user } = useContext(AuthContext)
     const [{ dbUser, refetch }] = useUser()
+    console.log(dbUser)
     const [isEditable, setisEditable] = useState(false)
 
     const [SelectDistrictId, setSelectedDistrictId] = useState(null);
@@ -49,14 +50,16 @@ const Profile = () => {
             District: JSON.parse(data.District).name,
             Upazila: JSON.parse(data.Upazila).name
         };
-        const imageFile = { image: FinalData.photo[0] }
+        console.log(FinalData)
+        const imageFile = { image: FinalData.photo[0] } 
         const res = await axiosPub.post(IMGURL, imageFile, {
             headers: {
                 'content-type': 'multipart/form-data'
             }
         });
-        console.log(res)
+        
         const image = res?.data?.data?.display_url
+        console.log(image)
         updateProfile(auth.currentUser, {
             displayName: FinalData.name, photoURL: image
         })
@@ -114,7 +117,7 @@ const Profile = () => {
                             </label>
                             <input
                                 type="text"
-                                disabled
+                                readOnly={true}
                                 defaultValue={dbUser?.name}
                                 {...register('name')}
                                 placeholder="Name"
@@ -127,7 +130,7 @@ const Profile = () => {
                             </label>
                             <input
                                 type="email"
-                                disabled
+                                readOnly={true}
                                 defaultValue={dbUser?.email}
                                 placeholder="Email"
                                 className="input input-bordered"
