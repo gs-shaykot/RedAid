@@ -10,27 +10,7 @@ The application will be developed using the **MERN stack** (MongoDB, Express.js,
 - Blood donation requests
 - Donor and content management
 - Role-based access control
-
----
-
-## **Key Rules**
-1. Include **at least 20 notable GitHub commits** on the client side.
-2. Include **at least 12 notable GitHub commits** on the server side.
-3. Add a meaningful `README.md` file with:
-   - Website name
-   - Admin username and password
-   - Live site URL
-   - A minimum of 10 bullet points to highlight website features.
-4. Ensure responsiveness for **mobile, tablet, and desktop views**, including the dashboard layout.
-5. Use **environment variables** to hide Firebase config keys and MongoDB credentials.
-6. Avoid using any **Lorem Ipsum** text in the website.
-7. Implement notifications for all CRUD operations, authentication, and sign-ups using **SweetAlert** or **toast notifications** (avoid browser alerts).
-8. Use **TanStack Query** for all data-fetching functionality (GET methods only).
-9. After reloading a private route, ensure the user does **not get redirected** to the login page.
-10. **Do not implement social login**, email verification, or password reset (optional for post-assignment).
-
----
-
+ 
 ## **User Roles and Permissions**
 
 ### **Roles**
@@ -113,19 +93,21 @@ The application will be developed using the **MERN stack** (MongoDB, Express.js,
    - Includes links to important pages, contact information, and copyright.
 
 ---
+ 
 
-## **Resources**
-- Use provided data for **districts** and **upazilas**.
-- Refer to [ImageBB](https://imgbb.com/) for avatar and blog thumbnail uploads.
 
----
-
-## **Tech Stack**
-- **Frontend**: React, TailwindCSS
-- **Backend**: Express.js, Node.js
-- **Database**: MongoDB
-- **Authentication**: Firebase (using environment variables)
-
+## ⚙️ Technologies Used
+- **React.js** for building the user interface.
+- **Firebase Authentication** for managing user login and registration.
+- **Firebase Hosting** and **Vercel** for deployment.
+- **MongoDB** for database management.
+- **Node.js** and **Express.js** for API creation and backend logic.
+- **React Hooks** (`useState`, `useEffect`, `useContext`, `useNavigate`, `useLocation`) for managing state and side effects.
+- **React-Router** for routing.
+- **Sweet Alert** for toast notifications.
+- **DaisyUI** and **Tailwind CSS** for styling.
+- **Swiper** for implementing dynamic sliders.
+- Additional libraries for animations: **Lottie React**, **React Awesome Reveal**, **React Super Responsive Table**.
 ---
 
 ## **Live Site URL**
