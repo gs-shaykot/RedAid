@@ -17,10 +17,7 @@ The application will be developed using the **MERN stack** (MongoDB, Express.js,
 1. **Admin 🌐**: Full access, including user management, donation requests, and content management.
 2. **Donor 🩸**: Can register, view, and respond to donation requests.
 3. **Volunteer 🤝**: Can create and manage donation requests.
-
-> 💡 **Make a user admin or volunteer by editing the database.**
-
----
+ 
 
 ## **Application Features**
 
