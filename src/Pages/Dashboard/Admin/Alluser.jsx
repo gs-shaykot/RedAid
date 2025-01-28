@@ -86,7 +86,7 @@ const Alluser = () => {
             <div className='w-full mx-auto bg-white shadow rounded-md'>
                 <div className='liear-bg w-full h-28 rounded-t-md'></div>
                 <div className='p-5'>
-                    <div className='flex justify-between items-center'>
+                    <div className='flex flex-col md:flex-row mb-4 justify-between items-center'>
                         <h1 className='font-semibold text-3xl my-5'>All Users</h1>
                         <div>
                             <select
@@ -203,7 +203,7 @@ const Alluser = () => {
                         </Tbody>
                     </Table>
                     <div >
-                        <div className='flex justify-center my-4 gap-3'>
+                        <div className='flex flex-wrap justify-center items-center gap-4 py-4'>
                             <button onClick={handlePrev} className='btn'>Prev</button>
                             {
                                 pages.map(page => (

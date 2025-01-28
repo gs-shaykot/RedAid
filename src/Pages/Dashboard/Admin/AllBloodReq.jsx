@@ -140,7 +140,7 @@ const AllBloodReq = () => {
                     <button onClick={handleNext} className="btn">
                         Next
                     </button>
-                    <select onChange={handleItemChange} className="select select-bordered">
+                    <select defaultValue={10}  onChange={handleItemChange} className="select select-bordered">
                         <option value="5">5</option>
                         <option value="10" defaultValue>
                             10
