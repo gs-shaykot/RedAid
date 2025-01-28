@@ -5,7 +5,7 @@ import usePublishedBlogs from "../Hooks/usePublishedBlogs";
 
 const Blogs = () => {
     const [PublishedBlogs] = usePublishedBlogs();
-    
+    console.log(PublishedBlogs)
     return (
         <div className="max-w-screen-xl mx-auto p-6 mt-14">
             <h1 className="text-4xl font-bold text-center mb-6">Latest Blood Donation Stories</h1>

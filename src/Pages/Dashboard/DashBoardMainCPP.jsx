@@ -20,9 +20,6 @@ const DashBoardMain = () => {
     const { RecentReq, isLoading, refetch } = useRecentReq()
     const { donating, isPending, refetch: DonatorRefetch, donarCount } = useDonating(currentPage, itemsPerPage)
 
-    if (isPending) {
-        return <span className="loading loading-dots loading-lg"></span>
-    }
 
     const axiosSec = useSecure()
 
@@ -102,6 +99,9 @@ const DashBoardMain = () => {
                         })
                 }
             })
+    }
+    if (isPending) {
+        return <span className="loading loading-dots loading-lg"></span>
     }
 
     return (

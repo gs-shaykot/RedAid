@@ -12,8 +12,12 @@ import { BiSolidDetail } from "react-icons/bi";
 import { Link } from 'react-router-dom';
 import useSecure from '../../Hooks/useSecure';
 import Swal from 'sweetalert2';
+import useVolunteer from '../../Hooks/useisVolunteer';
 
 const DashBoardMain = () => {
+
+    const [isVolunteer ] = useVolunteer()
+    console.log(isVolunteer)
 
     const { RecentReq, isLoading, refetch } = useRecentReq()
     const { donating, isPending, refetch: DonatorRefetch, donarCount } = useDonating()
@@ -88,7 +92,7 @@ const DashBoardMain = () => {
 
                         <div>
                             <div>
-                                <h1 className='font-semibold text-3xl my-5'>Recently Donated</h1>
+                                <h1 className='font-semibold text-3xl my-5'>Recently Accepted</h1>
                             </div>
                             <Table>
                                 <Thead>

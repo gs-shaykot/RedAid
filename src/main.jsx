@@ -38,6 +38,9 @@ import axios from 'axios';
 import PostBlog from './Pages/Dashboard/Admin/PostBlog.jsx';
 import BlogsDtl from './Pages/BlogsDtl.jsx';
 import EditPost from './Pages/Dashboard/Admin/EditBlog.jsx';
+import Search from './Pages/Search.jsx';
+import Funding from './Pages/Funding';
+import ShowFunding from './Pages/ShowFunding.jsx';
 
 export const router = createBrowserRouter([
   {
@@ -57,12 +60,24 @@ export const router = createBrowserRouter([
         element: <Register />
       },
       {
+        path: '/search',
+        element: <Search />
+      },
+      {
         path: '/donationRqst',
         element: <DonationRqst></DonationRqst>,
       },
       {
+        path: '/funding',
+        element: <PrivateRoute><Funding /></PrivateRoute>,
+      },
+      {
+        path: '/showfunding',
+        element: <PrivateRoute><ShowFunding /></PrivateRoute>,
+      },
+      {
         path: '/requestDtls/:id',
-        loader: ({ params }) => axios.get(`http://localhost:5000/requests/${params.id}`, { withCredentials: true }),
+        loader: ({ params }) => axios.get(`https://ass-12-delta.vercel.app/requests/${params.id}`, { withCredentials: true }),
         element: <RequestDetails></RequestDetails>
       },
       {
@@ -71,7 +86,7 @@ export const router = createBrowserRouter([
       },
       {
         path: '/blogs/:id',
-        loader: ({ params }) => axios.get(`http://localhost:5000/blogs/${params.id}`, { withCredentials: true }),
+        loader: ({ params }) => axios.get(`https://ass-12-delta.vercel.app/blogs/${params.id}`, { withCredentials: true }),
         element: <PrivateRoute><BlogsDtl /></PrivateRoute>
       },
       {
@@ -121,7 +136,7 @@ export const router = createBrowserRouter([
           },
           {
             path: 'Editblog/:id',
-            element: <AdminRoute><EditPost/></AdminRoute>
+            element: <AdminRoute><EditPost /></AdminRoute>
           },
         ]
       },

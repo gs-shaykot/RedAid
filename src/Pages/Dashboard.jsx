@@ -5,8 +5,11 @@ import { MdSpaceDashboard } from "react-icons/md";
 import { FaHireAHelper } from "react-icons/fa";
 import { MdCreateNewFolder } from "react-icons/md";
 import useisAdmin from '../Hooks/useisAdmin';
+import useVolunteer from '../Hooks/useisVolunteer';
 const Dashboard = () => {
     const [isAdmin] = useisAdmin()
+    const [isVolunteer, isLoading] = useVolunteer()
+
     return (
         <div className='flex'>
             {/* SIDEBAR */}
@@ -34,7 +37,7 @@ const Dashboard = () => {
                             </div>
                             <div className="hidden flex-none lg:block">
                                 {
-                                    isAdmin ?
+                                    isAdmin || isVolunteer ?
                                         <ul className="menu flex-col menu-horizontal gap-3">
                                             <li>
                                                 <NavLink to='profile'><ImProfile />My Profile</NavLink>

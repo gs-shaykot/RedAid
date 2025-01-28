@@ -10,10 +10,10 @@ import useRequests from "../Hooks/useRequests";
 import Swal from "sweetalert2";
 
 const RequestDetails = () => {
-    const DetailsData = useLoaderData(); 
+    const DetailsData = useLoaderData();
     const axiosSec = useSecure()
     const { user } = useContext(AuthContext)
-    const [{ refetch }] = useRequests()
+    const { refetch } = useRequests()
     const countdownRenderer = ({ days, hours, minutes, seconds, completed }) => {
         if (completed) {
             return <span className="text-red-600 font-bold">Time is up!</span>;
@@ -25,12 +25,12 @@ const RequestDetails = () => {
             );
         }
     };
- 
+
     const navigate = useNavigate()
     const handleDonate = (id) => {
         const userInfo = {
             DonarName: user?.displayName, DonorEmail: user?.email, donationStatus: "inprogress"
-        } 
+        }
         const { _id: ReqID, ...restDetailsData } = DetailsData.data;
         const Donator = {
             ReqID,
@@ -38,9 +38,9 @@ const RequestDetails = () => {
             DonarName: user?.displayName,
             DonorEmail: user?.email,
             donationStatus: "inprogress",
-        }; 
+        };
 
-        
+
         axiosSec.patch(`/requests/${id}`, userInfo)
             .then(res => {
                 refetch()

@@ -9,6 +9,9 @@ import useSecure from '../../../Hooks/useSecure';
 import { Link } from 'react-router-dom';
 import { BiSolidDetail } from "react-icons/bi";
 import useAllReqs from '../../../Hooks/useAllReqs';
+import { SiCoderwall } from 'react-icons/si';
+import { GrTooltip } from 'react-icons/gr';
+import useVolunteer from './../../../Hooks/useisVolunteer';
 
 const AllBloodReq = () => {
 
@@ -18,26 +21,24 @@ const AllBloodReq = () => {
     const [donationStatus, setDonationStatus] = useState('');
     const { AllReq, totalCount, isPending, refetch } = useAllReqs(donationStatus, currentPage, itemsPerPage)
     const axiosSec = useSecure()
-    if (isPending) {
-        return <span className="loading loading-dots loading-lg"></span>
-    }
     // PAGNIATION:  
     const NoOfPage = Math.ceil(totalCount / itemsPerPage)
     const pages = [...Array(NoOfPage).keys()]
+    const [isVolunteer] = useVolunteer()
 
-    const handlePrev = () => { 
+    const handlePrev = () => {
         if (currentPage > 0) {
             setCurrentPage(currentPage - 1)
         }
     }
 
-    const handleNext = () => { 
+    const handleNext = () => {
         if (currentPage < pages.length - 1) {
             setCurrentPage(currentPage + 1)
         }
     }
 
-    const handleItemChange = (e) => { 
+    const handleItemChange = (e) => {
         const Num = parseInt(e.target.value)
         console.log(Num)
         setItemsPerPage(Num)
@@ -73,6 +74,26 @@ const AllBloodReq = () => {
         setDonationStatus(event.target.value);
     };
 
+    const handleStatusUpdate = ({ id, stats }) => {
+        console.log(id, stats)
+        axiosSec.patch(`/requests/${id}`, { donationStatus: stats })
+            .then(() => {
+                Swal.fire({
+                    title: "Status Changed!",
+                    text: "Status has been Changed",
+                    icon: "success"
+                });
+                refetch()
+            })
+            .catch((error) => {
+                Swal.fire({
+                    title: "Error Occured!",
+                    text: error.message,
+                    icon: "error"
+                });
+            })
+    }
+
     return (
         <div className='bg-gray-100 px-5'>
             <div>
@@ -103,9 +124,11 @@ const AllBloodReq = () => {
                         </select>
                     </div>
                 </div>
-                {
-                    isPending ? <span className="loading loading-dots loading-md"></span> : ''
-                }
+                <div>
+                    {
+                        isPending ? <span className="loading loading-dots loading-md"></span> : ''
+                    }
+                </div>
                 <Table>
                     <Thead>
                         <Tr>
@@ -141,13 +164,54 @@ const AllBloodReq = () => {
                                 </Td>
                                 <Td className="border border-gray-300 p-1">
                                     <div className="flex gap-2 justify-center items-center text-xl">
-                                        <Link to={`/reqUpdate/${data._id}`} className="btn bg-transparent">
-                                            <MdEditSquare className="text-orange-500 text-xl" />
-                                        </Link>
-                                        <button className="btn bg-transparent" onClick={() => handleDeleteReq(data._id)}>
-                                            <MdDeleteForever className="text-red-500 text-xl" />
-                                        </button>
-                                        <Link to={`/requestDtls/${data._id}`} className="btn bg-transparent text-lg flex justify-center items-center">
+                                        {
+                                            isVolunteer ?
+                                                <></> :
+                                                <>
+                                                    <Link to={`/reqUpdate/${data._id}`} className="btn btn-xs bg-transparent">
+                                                        <MdEditSquare className="text-orange-500 text-xl" />
+                                                    </Link>
+                                                    <button className="btn btn-xs bg-transparent" onClick={() => handleDeleteReq(data._id)}>
+                                                        <MdDeleteForever className="text-red-500 text-xl" />
+                                                    </button>
+                                                </>
+                                        }
+
+                                        <div className="tooltip-container2">
+                                            <GrTooltip
+                                                id='tooltip'
+                                                className='text-lg  text-red-500 cursor-pointer'
+                                            />
+                                            <div className="tooltip-content2">
+                                                <div className="flex flex-col gap-2 justify-center">
+                                                    <button
+                                                        title='Delete Request'
+                                                        className="btn btn-xs bg-transparent"
+                                                        onClick={() => handleStatusUpdate({ id: data._id, stats: 'done' })}
+
+                                                    >
+                                                        done
+                                                    </button>
+                                                    <button
+                                                        title='Delete Request'
+                                                        className="btn btn-xs bg-transparent"
+                                                        onClick={() => handleStatusUpdate({ id: data._id, stats: 'cancel' })}
+
+                                                    >
+                                                        cancel
+                                                    </button>
+                                                    <button
+                                                        title='Delete Request'
+                                                        className="btn btn-xs bg-transparent"
+                                                        onClick={() => handleStatusUpdate({ id: data._id, stats: 'pending' })}
+
+                                                    >
+                                                        pending
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <Link to={`/requestDtls/${data._id}`} className="btn btn-xs bg-transparent text-lg flex justify-center items-center">
                                             <BiSolidDetail className="text-red-500 text-xl" />
                                         </Link>
                                     </div>
@@ -165,7 +229,7 @@ const AllBloodReq = () => {
                                 <button
                                     onClick={() => setCurrentPage(page)}
                                     className={currentPage === page ? 'selected join-item btn btn-square' : 'join-item btn btn-square'}
-                                    key={page}>{page+1}</button>
+                                    key={page}>{page + 1}</button>
                             ))
                         }
                         <button onClick={handleNext} className='btn'>Next</button>

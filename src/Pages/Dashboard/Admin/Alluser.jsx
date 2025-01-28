@@ -10,6 +10,7 @@ import { GrTooltip } from 'react-icons/gr';
 import useAdmin from '../../../Hooks/useisAdmin';
 import useSecure from '../../../Hooks/useSecure';
 import Swal from 'sweetalert2';
+import useVolunteer from '../../../Hooks/useisVolunteer';
 
 const Alluser = () => {
     const [itemsPerPage, setItemsPerPage] = useState(10)
@@ -19,6 +20,7 @@ const Alluser = () => {
     const { Alluser, userCount, isPending, refetch } = useAllUser(statusFilter, currentPage, itemsPerPage);
     const [isAdmin] = useAdmin();
     const axiosSec = useSecure();
+    const [isVolunteer] = useVolunteer()
 
     if (isPending) {
         return <span className="loading loading-dots loading-lg"></span>
@@ -153,12 +155,12 @@ const Alluser = () => {
                                         </Td>
                                     ) : (
                                         <Td className='border border-gray-300 p-1 text-center relative'>
-                                            <div className="tooltip-container">
+                                            <div className="tooltip-container2">
                                                 <GrTooltip
-                                                    id='tooltip'
+                                                    id='tooltip2'
                                                     className='text-xl text-red-500 cursor-pointer'
                                                 />
-                                                <div className="tooltip-content">
+                                                <div className="tooltip-content2">
                                                     <div className="flex flex-col gap-2 justify-center">
                                                         {data.status === 'blocked' ? (
                                                             <button
@@ -175,7 +177,7 @@ const Alluser = () => {
                                                                 Block
                                                             </button>
                                                         )}
-                                                        {data.status !== 'blocked' && (
+                                                        {(!isVolunteer && data.status !== 'blocked') && (
                                                             <>
                                                                 <button
                                                                     onClick={() => handleStatus({ id: data._id, action: 'volunteer' })}

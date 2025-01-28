@@ -4,7 +4,7 @@ import useSecure from './useSecure';
 
 const useBlogs = (blogStatus, currentPage, itemsPerPage) => {
     const axiosSec = useSecure()
-    const { data: { AllBlogs = [], blogCount } = {}, isPending, refetch } = useQuery({
+    const { data: { AllBlogs = [], blogCount=0 } = {}, isPending, refetch } = useQuery({
         queryKey: ['AllBlogs', blogStatus, currentPage, itemsPerPage],
         queryFn: async () => {
             const res = await axiosSec.get(`/blogs?page=${currentPage}&size=${itemsPerPage}`);

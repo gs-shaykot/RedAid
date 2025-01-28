@@ -6,7 +6,7 @@ import { Link, NavLink } from 'react-router-dom';
 
 const DonationRqst = () => {
 
-    const [AllReq, isPending, refetch] = useAllReqs()
+    const { AllReq, isPending, refetch } = useAllReqs()
 
     const handleSeeDetails = () => {
 

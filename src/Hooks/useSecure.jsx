@@ -5,25 +5,25 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../Provider/AuthProvider";
 
 const AxiosSecure = axios.create({
-    baseURL: "http://localhost:5000",
+    baseURL: "https://ass-12-delta.vercel.app",
     withCredentials: true
 })
 const useSecure = () => {
     const { LogOut } = useContext(AuthContext)
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
     useEffect(() => {
         AxiosSecure.interceptors.response.use(response => {
             return response
         }, error => {
             if (error.status === 401 || error.status === 403) {
+                Swal.fire({
+                    title: "Warning",
+                    text: "Logged out For forbidden access",
+                    icon: "warning"
+                })
                 LogOut()
                     .then(res => {
-                        navigate('/login')
-                        Swal.fire({
-                            title: "Warning",
-                            text: "Logged out For forbidden access",
-                            icon: "warning"
-                        })
+                        // navigate('/login') 
                     })
                     .catch(error => (
                         console.log(error.message)

@@ -16,11 +16,15 @@ import { FaHandHoldingUsd } from "react-icons/fa";
 import { MdBloodtype } from "react-icons/md";
 import useAllUser from '../../../Hooks/useAllUser';
 import useRecentReq from '../../../Hooks/useRecentReq';
+import useFunding from '../../../Hooks/useFunding';
 
 const AdminDashboard = () => {
     const { Alluser } = useAllUser()
     const { AllReq } = useAllReqs()
     const { RecentReq, isLoading, refetch } = useRecentReq()
+    const { haveFund, isPending, fundReload } = useFunding()
+    const totalFund = haveFund.reduce((accumulator, currentItem) => accumulator + Number(currentItem.price), 0);
+    
     return (
         <div className='bg-gray-100 h-screen'>
             <div className='bg-white'>
@@ -45,7 +49,7 @@ const AdminDashboard = () => {
                     <div>
                         <h1 className='font-medium text-'>Total Fundings</h1>
                         <h1 className='text-2xl font-bold'>
-                            $<SlotCounter value={123456} />
+                            $<SlotCounter value={totalFund} />
                         </h1>
                     </div>
                 </div>

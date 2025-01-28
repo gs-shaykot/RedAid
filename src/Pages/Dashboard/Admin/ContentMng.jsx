@@ -6,6 +6,7 @@ import useBlogs from '../../../Hooks/useBlogs';
 import { GrTooltip } from 'react-icons/gr';
 import useSecure from '../../../Hooks/useSecure';
 import Swal from 'sweetalert2';
+import useVolunteer from './../../../Hooks/useisVolunteer';
 
 const ContentMng = () => {
 
@@ -16,7 +17,7 @@ const ContentMng = () => {
     const [blogStatus, setBlogStatus] = useState();
     const { AllBlogs, blogCount, isPending, refetch } = useBlogs(blogStatus, currentPage, itemsPerPage);
     const axiosSec = useSecure()
-
+    const [isVolunteer] = useVolunteer()
     if (isPending) {
         return <span className="loading loading-dots loading-lg"></span>
     }
@@ -153,25 +154,32 @@ const ContentMng = () => {
                                         />
                                         <div className="tooltip-content">
                                             <div className="flex flex-col gap-2 justify-center">
-                                                {data.blogStatus === 'draft' ? (
-                                                    <button
-                                                        onClick={() => handlePublish({ id: data._id, action: "published" })}
-                                                        className='btn btn-xs bg-transparent border-2 border-red-500'
-                                                    >
-                                                        Publish
-                                                    </button>
-                                                ) : (
-                                                    <button
-                                                        onClick={() => handlePublish({ id: data._id, action: "draft" })}
-                                                        className='btn btn-xs bg-red-500 text-white'
-                                                    >
-                                                        Draft
-                                                    </button>
-                                                )}
-                                                <button
-                                                    onClick={() => handleDelete(data._id)}
-                                                    className='btn btn-xs bg-red-500 text-white'
-                                                >Delete</button>
+                                                {
+                                                    isVolunteer ?
+                                                        <></> :
+                                                        <>
+                                                            {data.blogStatus === 'draft' ? (
+                                                                <button
+                                                                    onClick={() => handlePublish({ id: data._id, action: "published" })}
+                                                                    className='btn btn-xs bg-transparent border-2 border-red-500'
+                                                                >
+                                                                    Publish
+                                                                </button>
+                                                            ) : (
+                                                                <button
+                                                                    onClick={() => handlePublish({ id: data._id, action: "draft" })}
+                                                                    className='btn btn-xs bg-red-500 text-white'
+                                                                >
+                                                                    Draft
+                                                                </button>
+                                                            )}
+                                                            <button
+                                                                onClick={() => handleDelete(data._id)}
+                                                                className='btn btn-xs bg-red-500 text-white'
+                                                            >Delete</button>
+                                                        </>
+                                                }
+
                                                 <Link to={`/dashboard/Editblog/${data._id}`}
                                                     className='btn btn-xs bg-red-500 text-white'
                                                 >Edit Blog</Link>
@@ -186,25 +194,28 @@ const ContentMng = () => {
                 <div className='flex justify-between gap-3'>
                     <Link to='/dashboard/addBlog' className='flex justify-center items-center pt-5'>
                         <h1 className='btn bg-transparent hover:bg-red-500 hover:text-white border-1 border-red-500'>Post a Blog</h1>
-                    </Link>                 <div >
-                        <div className='flex justify-center my-4 gap-3'>
-                            <button onClick={handlePrev} className='btn'>Prev</button>
-                            {
-                                pages.map(page => (
-                                    <button
-                                        onClick={() => setCurrentPage(page)}
-                                        className={currentPage === page ? 'selected join-item btn btn-square' : 'join-item btn btn-square'}
-                                        key={page}>{page + 1}</button>
-                                ))
-                            }
-                            <button onClick={handleNext} className='btn'>Next</button>
-                            <select defaultValue={10} className='select select-info' onChange={handleItemChange}>
-                                <option disabled>Select</option>
-                                <option value="5">5</option>
-                                <option value="10">10</option>
-                                <option value="20">20</option>
-                                <option value="50">50</option>
-                            </select>
+                    </Link>
+                    <div >
+                        <div >
+                            <div className='flex justify-center my-4 gap-3'>
+                                <button onClick={handlePrev} className='btn'>Prev</button>
+                                {
+                                    pages.map(page => (
+                                        <button
+                                            onClick={() => setCurrentPage(page)}
+                                            className={currentPage === page ? 'selected join-item btn btn-square' : 'join-item btn btn-square'}
+                                            key={page}>{page + 1}</button>
+                                    ))
+                                }
+                                <button onClick={handleNext} className='btn'>Next</button>
+                                <select defaultValue={10} className='select select-info' onChange={handleItemChange}>
+                                    <option disabled>Select</option>
+                                    <option value="5">5</option>
+                                    <option value="10">10</option>
+                                    <option value="20">20</option>
+                                    <option value="50">50</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>

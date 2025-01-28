@@ -1,4 +1,4 @@
-// check the data updating logic is ok or not
+// check why my updation is not working
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../../Provider/AuthProvider';
 import Welcome from '../../../Components/Welcome.JSX';
@@ -36,13 +36,7 @@ const Profile = () => {
     const IMGURL = `https://api.imgbb.com/1/upload?key=${IMGAPI}`
 
     const axiosSec = useSecure()
-    const axiosPub = useAxiosPublic()
-    // useEffect(() => {
-    //     axiosSec.get(`/users/${user?.email}`)
-    //         .then(res=>console.log("isAdmin response: ",res))
-    //         .catch(error=>console.log("isAdmin error: ",error)) 
-    // })
-
+    const axiosPub = useAxiosPublic()  
 
     const handleEditProfile = () => {
         setisEditable(true);
@@ -61,13 +55,14 @@ const Profile = () => {
                 'content-type': 'multipart/form-data'
             }
         });
+        console.log(res)
         const image = res?.data?.data?.display_url
         updateProfile(auth.currentUser, {
             displayName: FinalData.name, photoURL: image
         })
             .then(res => {
                 // ToDo: database update
-                axiosSec.patch(`users/${dbUser._id}`, FinalData, { withCredentials: true })
+                axiosSec.patch(`users/${dbUser._id}`, FinalData)
                     .then(res => {
                         Swal.fire({
                             title: "Successfull",
@@ -76,10 +71,10 @@ const Profile = () => {
                         });
                         refetch()
                     })
-                // .catch(error => console.log(error.message))
+                    .catch(error => console.log(error.message))
             })
             .catch(error => {
-                // console.log(error.message)
+                console.log(error.message)
             })
 
         setisEditable(false)
@@ -135,10 +130,9 @@ const Profile = () => {
                                 type="text"
                                 disabled={true}
                                 defaultValue={dbUser?.name}
-                                {...register('name', { required: true })}
+                                {...register('name')}
                                 placeholder="Name"
                                 className="input input-bordered" />
-                            {errors.name && <span className="text-red-600">Name is required</span>}
                         </div>
                         <div className="form-control">
                             <label className="label">

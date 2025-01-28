@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 
 const useAllReqs = (donationStatus, currentPage, itemsPerPage) => {
     const axiosSec = useSecure()
-    const { data: { AllReq = [], totalCount } = {}, isPending, refetch } = useQuery({
+    const { data: { AllReq = [], totalCount=0 } = {}, isPending, refetch } = useQuery({
         queryKey: ['AllReq', donationStatus, currentPage, itemsPerPage],
         queryFn: async () => {
             const res = await axiosSec.get(`/requests?page=${currentPage}&size=${itemsPerPage}`);

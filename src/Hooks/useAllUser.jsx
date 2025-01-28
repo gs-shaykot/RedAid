@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 
 const useAllUser = (status, currentPage, itemsPerPage) => {
     const axiosSec = useSecure()
-    const { data: { Alluser = [], userCount } = {}, isPending, refetch } = useQuery({
+    const { data: { Alluser = [], userCount=0 } = {}, isPending, refetch } = useQuery({
         queryKey: ['Alluser', status, currentPage, itemsPerPage],
         queryFn: async () => {
             const res = await axiosSec.get(`/users?page=${currentPage}&size=${itemsPerPage}`)

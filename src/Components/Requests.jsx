@@ -44,7 +44,7 @@ const HomeRequests = () => {
 
 
     return (
-        <div className='container mx-auto'>
+        <div className='w-11/12 md:w-full container mx-auto'>
             <h2 className="text-center py-5 mb-5 text-3xl md:text-5xl font-bold text-gray-800">
                 Recent Blood Request
             </h2>

@@ -8,9 +8,10 @@ const usePublishedBlogs = () => {
         queryKey: ['PublishedBlogs'],
         queryFn: async () => {
             const res = await axiosSec.get('/blogs');
-            return res.data.filter(data => data.blogStatus === "published")
+            const {result}=res.data
+            return result.filter(data => data.blogStatus === "published")
         }
-    })
+    }) 
     return [PublishedBlogs, isPending, refetch]
 };
 

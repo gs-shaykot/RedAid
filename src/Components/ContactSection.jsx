@@ -60,7 +60,7 @@ const ContactSection = () => {
             <img
               src="https://i.ibb.co/0CSbNyb/Pngtree-doctor-and-donation-of-the-6288026.png"
               alt="Doctor and Blood Donation Illustration"
-              className="max-w-sm lg:max-w-md"
+              className="w-10/12"
             />
           </div>
         </section>

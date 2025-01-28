@@ -5,11 +5,13 @@ import Lottie from 'lottie-react';
 import { AuthContext } from '../Provider/AuthProvider';
 import Swal from 'sweetalert2';
 import useAdmin from '../Hooks/useisAdmin';
+import useVolunteer from '../Hooks/useisVolunteer';
 
 const NavBar = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const { user, LogOut, setUser } = useContext(AuthContext)
     const [isAdmin] = useAdmin()
+    const [isVolunteer, isLoading] = useVolunteer()
     const navigate = useNavigate()
     const SignOut = () => {
         LogOut()
@@ -103,7 +105,7 @@ const NavBar = () => {
                                     <NavLink to='/blogs'>Blog</NavLink>
                                 </li>
                                 <li>
-                                    <NavLink to='/funding'>Funding Links</NavLink>
+                                    <NavLink to='/showfunding'>Our Patrons</NavLink>
                                 </li>
                             </ul> :
 
@@ -137,7 +139,7 @@ const NavBar = () => {
                                     className="menu bg-base-100 text-black menu-sm dropdown-content rounded-box z-30 mt-3 w-52 p-2 shadow">
                                     <li><NavLink to='/dashboard/profile'>{user?.displayName}</NavLink></li>
                                     {
-                                        isAdmin ?
+                                        isAdmin || isVolunteer ?
                                             <li><NavLink to='/dashboard/adminDashboard'>Dashboard</NavLink></li> :
                                             <li><NavLink to='/dashboard/main'>Dashboard</NavLink></li>
                                     }

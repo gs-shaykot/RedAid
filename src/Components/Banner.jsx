@@ -24,17 +24,20 @@ const Banner = () => {
                         today and make a real difference in someone's life.
                     </p>
                     <div className="flex gap-2">
-                        <Link>
+                        <Link to='/register'>
+                            
                             <button className="btn bg-transparent border-red-600 text-sm hover:bg-red-500 hover:text-white">
                                 <FaRegHandshake className="text-base" />
                                 Join as a donor
                             </button>
                         </Link>
                         <Link>
-                            <button className="btn bg-red-500 hover:bg-[#b91c1c] text-white text-sm ">
+                            <Link
+                                to='/search'
+                                className="btn bg-red-500 hover:bg-[#b91c1c] text-white text-sm ">
                                 <FaSearch className="text-base" />
                                 Search Donors
-                            </button>
+                            </Link>
                         </Link>
                     </div>
                 </div>
