@@ -1,8 +1,10 @@
+// make a tool
 import React, { useState } from 'react';
 import Welcome from '../../../Components/Welcome';
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 import { MdDeleteForever, MdEditSquare } from 'react-icons/md';
+import { TiFlowSwitch } from "react-icons/ti";
 import Swal from 'sweetalert2';
 import useSecure from '../../../Hooks/useSecure';
 import { Link } from 'react-router-dom';
@@ -114,10 +116,40 @@ const AllBloodReq = () => {
                                                     </button>
                                                 </>
                                             )}
+
                                             <Link to={`/requestDtls/${data._id}`} className="text-red-500">
                                                 <BiSolidDetail />
                                             </Link>
                                         </div>
+                                        <div className="tooltip-container3">
+                                            <TiFlowSwitch
+                                                id='tooltip3'
+                                                className='text-xl text-red-500 cursor-pointer'
+                                            />
+                                            <div className="tooltip-content3">
+                                                <div className="flex flex-col gap-2 justify-center">
+                                                    <button onClick={()=>handleStatusUpdate({id:data._id,stats:'pending'})} className='btn-xs btn'>Pending</button>
+                                                    <button onClick={()=>handleStatusUpdate({id:data._id,stats:'done'})} className='btn-xs btn'>Done</button>
+                                                    <button onClick={()=>handleStatusUpdate({id:data._id,stats:'cancel'})} className='btn-xs btn'>Cancel</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {/* <div className="flex flex-wrap gap-2 justify-center items-center">
+                                            {!isVolunteer && (
+                                                <>
+                                                    <Link to={`/reqUpdate/${data._id}`} className="text-orange-500">
+                                                        <MdEditSquare />
+                                                    </Link>
+                                                    <button onClick={() => handleDeleteReq(data._id)} className="text-red-500">
+                                                        <MdDeleteForever />
+                                                    </button>
+                                                </>
+                                            )}
+                                             
+                                            <Link to={`/requestDtls/${data._id}`} className="text-red-500">
+                                                <BiSolidDetail />
+                                            </Link>
+                                        </div> */}
                                     </Td>
                                 </Tr>
                             ))}
@@ -140,7 +172,7 @@ const AllBloodReq = () => {
                     <button onClick={handleNext} className="btn">
                         Next
                     </button>
-                    <select defaultValue={10}  onChange={handleItemChange} className="select select-bordered">
+                    <select defaultValue={10} onChange={handleItemChange} className="select select-bordered">
                         <option value="5">5</option>
                         <option value="10" defaultValue>
                             10
