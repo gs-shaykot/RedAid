@@ -120,7 +120,7 @@ const PostBlog = () => {
                             />
                         </div>
                         <div className="form-control mt-6">
-                            <button className="btn btn-primary bg-red-600 hover:bg-[#b91c1c] text-white border-0">Register</button>
+                            <button className="btn btn-primary bg-red-600 hover:bg-[#b91c1c] text-white border-0">POST</button>
                         </div>
                     </form>
                 </div>
