@@ -6,8 +6,7 @@ import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 import { Link } from 'react-router-dom';
 
 const ShowFunding = () => {
-    const { haveFund, isPending, fundReload } = useFunding()
-    console.log(haveFund)
+    const { haveFund, isPending, fundReload } = useFunding() 
     return (
         <div className='my-20 container mx-auto'>
             <div className='flex justify-between items-center mb-5'>

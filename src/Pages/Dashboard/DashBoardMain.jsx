@@ -16,8 +16,7 @@ import useVolunteer from '../../Hooks/useisVolunteer';
 
 const DashBoardMain = () => {
 
-    const [isVolunteer ] = useVolunteer()
-    console.log(isVolunteer)
+    const [isVolunteer ] = useVolunteer() 
 
     const { RecentReq, isLoading, refetch } = useRecentReq()
     const { donating, isPending, refetch: DonatorRefetch, donarCount } = useDonating()

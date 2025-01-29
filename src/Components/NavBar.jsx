@@ -31,9 +31,7 @@ const NavBar = () => {
                     icon: "error"
                 });
             })
-    }
-    console.log("ADMIN: ",isAdmin)
-    console.log("Volunteer: ",isVolunteer)
+    } 
     useEffect(() => {
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 0);

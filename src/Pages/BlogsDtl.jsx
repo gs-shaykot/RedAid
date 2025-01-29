@@ -3,7 +3,6 @@ import { Link, useLoaderData } from "react-router-dom";
 
 const BlogDatasDtl = () => {
     const BlogData = useLoaderData()
-    console.log(BlogData.data)
     if (!BlogData.data) {
         return (
             <div className="max-w-screen-md mx-auto text-center mt-20">

@@ -2,14 +2,16 @@
 import useSecure from './useSecure';
 import { useQuery } from '@tanstack/react-query';
 
-const useDonationRqst = () => {
+const useDonationRqst = (currentPage, itemsPerPage) => {
     const axiosSec = useSecure()
     const { data: { DonationRqst = [], totalCount = 0 } = {}, isPending, refetch } = useQuery({
-        queryKey: ['DonationRqst'],
+        queryKey: ['DonationRqst', currentPage, itemsPerPage],
         queryFn: async () => {
-            const res = await axiosSec.get(`/requests`);
+            const res = await axiosSec.get(`/requests/pending?page=${currentPage}&size=${itemsPerPage}`);
             const { result, totalCount } = res.data
-            const DonationRqst = result.filter(data =>data.donationStatus === "pending");
+            console.log("Result length: ",result.length)
+            const DonationRqst = result.filter(user => user.donationStatus === 'pending');
+            console.log(DonationRqst.length)
             return { DonationRqst, totalCount }
         }
     })

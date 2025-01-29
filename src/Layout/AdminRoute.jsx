@@ -9,7 +9,6 @@ const AdminRoute = ({ children }) => {
     const { user, loader } = useContext(AuthContext);
     const [isAdmin, isPending] = useAdmin();
     const [isVolunteer, isLoading] = useVolunteer()
-    console.log(isVolunteer)
     const location = useLocation();
 
     if (loader || isPending || isLoading) {

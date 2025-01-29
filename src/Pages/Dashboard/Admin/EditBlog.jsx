@@ -56,8 +56,7 @@ const EditPost = () => {
             PosterName: user?.displayName,
             PosterEmail: user?.email,
             postedDate: formattedDate
-        };
-        console.log(blogData)
+        }; 
         const response = await axiosSec.patch(`/blogs/${id}`, blogData);
         if (response.status === 200) {
             Swal.fire({

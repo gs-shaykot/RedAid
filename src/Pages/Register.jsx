@@ -30,8 +30,7 @@ const Register = () => {
     const filteredUpazillas = SelectDistrictId ? 
         upazillas.filter(upazilla => upazilla.district_id == SelectDistrictId) : []
 
-    const onSubmit = async (data, e) => {
-        console.log(data)
+    const onSubmit = async (data, e) => { 
         if (password !== confirmPassword) {
             Swal.fire({
                 title: "Wrong Credential",

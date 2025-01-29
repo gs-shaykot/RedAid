@@ -40,8 +40,7 @@ const DashBoardMain = () => {
     }
 
     const handleItemChange = (e) => {
-        const Num = parseInt(e.target.value)
-        console.log(Num)
+        const Num = parseInt(e.target.value) 
         setItemsPerPage(Num)
         setCurrentPage(0)
     }

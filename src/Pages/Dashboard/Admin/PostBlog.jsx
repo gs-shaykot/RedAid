@@ -57,8 +57,7 @@ const PostBlog = () => {
         };
         // Upload blog data
         const response = await axiosSec.post('/blogs', blogData);
-        if (response.status === 200) {
-            console.log(blogData)
+        if (response.status === 200) { 
             Swal.fire({
                 title: "Succeess",
                 text: "Blog posted Successfully",

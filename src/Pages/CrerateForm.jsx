@@ -14,7 +14,6 @@ const CrerateForm = () => {
     const { user } = useContext(AuthContext);
     const [selectedAmount, setSelectedAmount] = useState(0);
     const PreFund = [10, 25, 50, 100];
-    console.log(user)
     useEffect(() => {
         if (selectedAmount > 0) {
             axiosSec
@@ -35,7 +34,6 @@ const CrerateForm = () => {
         const value = e.target.value;
         if (!isNaN(value) && value >= 0.5) {
             setSelectedAmount(value);
-            console.log("if er vitore: ", value)
         }
         else if (value < 0.5) {
             setError("Minimum donation amount is $0.50.");

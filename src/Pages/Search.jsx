@@ -13,8 +13,7 @@ const Search = () => {
   const [searchParams, setSearchParams] = useState(null);
 
   const { blood, District, Upazila } = searchParams || {};
-  const [searchRes, isPending, refetch] = useSearch(blood, District, Upazila, !!searchParams);
-  console.log(searchRes)
+  const [searchRes, isPending, refetch] = useSearch(blood, District, Upazila, !!searchParams); 
   const filteredUpazillas = SelectDistrictId
     ? upazillas.filter((upazilla) => upazilla.district_id === SelectDistrictId)
     : [];
