@@ -7,7 +7,7 @@ const useDonationRqst = (currentPage, itemsPerPage) => {
     const { data: { DonationRqst = [], totalCount = 0 } = {}, isPending, refetch } = useQuery({
         queryKey: ['DonationRqst', currentPage, itemsPerPage],
         queryFn: async () => {
-            const res = await axiosSec.get(`/requests/pending?page=${currentPage}&size=${itemsPerPage}`);
+            const res = await axiosSec.get(`/requests/all/stats/pending?page=${currentPage}&size=${itemsPerPage}`);
             const { result, totalCount } = res.data
             console.log("Result length: ",result.length)
             const DonationRqst = result.filter(user => user.donationStatus === 'pending');
