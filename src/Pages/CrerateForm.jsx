@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import useSecure from './../Hooks/useSecure';
 import { AuthContext } from '../Provider/AuthProvider';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
 const CrerateForm = () => {
     const [clientSecret, setClientSecret] = useState('');
@@ -13,7 +14,7 @@ const CrerateForm = () => {
     const { user } = useContext(AuthContext);
     const [selectedAmount, setSelectedAmount] = useState(0);
     const PreFund = [10, 25, 50, 100];
-
+    console.log(user)
     useEffect(() => {
         if (selectedAmount > 0) {
             axiosSec
@@ -44,7 +45,7 @@ const CrerateForm = () => {
         }
 
     };
-
+    const navigate = useNavigate()
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (selectedAmount < 0.5) {
@@ -81,27 +82,37 @@ const CrerateForm = () => {
             setError(confirmError.message);
         } else {
             console.log('Payment Intent: ', paymentIntent);
-            if (paymentIntent.status === 'succeeded') { 
+            if (paymentIntent.status === 'succeeded') {
                 const date = new Date();
                 const formattedDate = date.toISOString().split('T')[0] + ' at ' + date.toISOString().split('T')[1];
 
                 const payment = {
+                    name: user.displayName,
                     email: user.email,
                     price: selectedAmount,
                     transactionId: paymentIntent.id,
-                    date: formattedDate,  
+                    date: formattedDate,
                 };
+                console.log("DONAR INFO: ", payment)
+                await axiosSec.post('/makeAfunding', payment)
+                    .then(res => {
+                        console.log("payment saving info: ", res.data);
+                        Swal.fire({
+                            title: "Payment Successful",
+                            text: "Thanks for being with us.",
+                            icon: "success"
+                        });
+                        navigate('/showfunding')
+                    })
+                // console.log("payment saving info: ", res.data);
 
-                const res = await axiosSec.post('/makeAfunding', payment);
-                console.log("payment saving info: ", res.data);
-
-                if (res.data?.insertedId) {
-                    Swal.fire({
-                        title: "Payment Successful",
-                        text: "Thanks for being with us.",
-                        icon: "success"
-                    });
-                }
+                // if (res.data?.insertedId) {
+                //     Swal.fire({
+                //         title: "Payment Successful",
+                //         text: "Thanks for being with us.",
+                //         icon: "success"
+                //     });
+                // }
             }
 
         }
