@@ -3,10 +3,13 @@ import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 import useAllReqs from '../Hooks/useAllReqs';
 import { Link, NavLink } from 'react-router-dom';
+import useDonationRqst from '../Hooks/useDonationRqst';
 
 const DonationRqst = () => {
 
-    const { AllReq, isPending, refetch } = useAllReqs()
+    // const { AllReq, isPending, refetch } = useAllReqs()
+    const { DonationRqst, totalCount, isPending, refetch } = useDonationRqst()
+    console.log("filtered: ",DonationRqst)
 
     const handleSeeDetails = () => {
 
@@ -34,7 +37,7 @@ const DonationRqst = () => {
                         </Thead>
                         <Tbody className='text-center'>
                             {
-                                AllReq?.map(data => (
+                                DonationRqst?.map(data => (
                                     <Tr key={data._id}>
                                         <Td className='border border-gray-300 p-1'>{data.recipientName}</Td>
                                         <Td className='border border-gray-300 p-1'>
