@@ -66,6 +66,7 @@
 .tooltip-container2:hover .tooltip-content2 {
     display: block;
 }
+
 .tooltip-container3 {
     position: relative;
     display: inline-block;
@@ -96,6 +97,15 @@
 
 @media screen and (max-width: 40em) {
     .responsiveTable td .tdBefore {
-        line-height: 10px!important;
+        line-height: 10px !important;
     }
+}
+
+.swiper-pagination-bullet-active {
+    background-color: red !important;
+}
+
+.swiper-button-prev,
+.swiper-button-next { 
+    color: red !important;
 }

@@ -45,7 +45,7 @@ const HomeRequests = () => {
 
     return (
         <div className='w-11/12 md:w-full container mx-auto'>
-            <h2 className="text-center py-5 mb-5 text-3xl md:text-5xl font-bold text-gray-800">
+            <h2 className="text-center py-12 text-3xl md:text-5xl font-bold text-gray-800">
                 Recent Blood Request
             </h2>
             <div className=' grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 '>

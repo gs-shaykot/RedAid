@@ -5,6 +5,8 @@ import How from '../Components/How';
 import HomeRequests from '../Components/Requests';
 import BlogsCard from '../Components/Blogs'; 
 import ContactSection from './../Components/ContactSection';
+import Reviews from '../Components/Review';
+import Partners from '../Components/Partners';
 
 const HomeLayout = () => {
     return (
@@ -13,7 +15,9 @@ const HomeLayout = () => {
             <WTDonate></WTDonate>
             <How></How>
             <HomeRequests></HomeRequests>
+            <Partners/>
             <BlogsCard/>
+            <Reviews/>
             <ContactSection/>
         </div>
     );

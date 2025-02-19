@@ -77,7 +77,7 @@ export const router = createBrowserRouter([
       },
       {
         path: '/requestDtls/:id',
-        loader: ({ params }) => axios.get(`http://localhost:5000/requests/${params.id}`, { withCredentials: true }),
+        loader: ({ params }) => axios.get(`https://ass-12-delta.vercel.app/requests/${params.id}`, { withCredentials: true }),
         element: <PrivateRoute><RequestDetails></RequestDetails></PrivateRoute>
       },
       {
@@ -86,7 +86,7 @@ export const router = createBrowserRouter([
       },
       {
         path: '/blogs/:id',
-        loader: ({ params }) => axios.get(`http://localhost:5000/blogs/${params.id}`, { withCredentials: true }),
+        loader: ({ params }) => axios.get(`https://ass-12-delta.vercel.app/blogs/${params.id}`, { withCredentials: true }),
         element: <PrivateRoute><BlogsDtl /></PrivateRoute>
       },
       {

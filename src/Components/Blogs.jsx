@@ -27,8 +27,8 @@ const BlogsCard = () => {
 
     return (
         <div className='container mx-auto'>
-            <h2 className="mt-16 text-center py-5 mb-5 text-3xl md:text-5xl font-bold text-gray-800">
-                Recent Blood Request
+            <h2 className=" text-center pt-0 py-5 mb-5 text-3xl md:text-5xl font-bold text-gray-800">
+                Recent Blogs
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6">
                 {cardData.map((card, index) => (
