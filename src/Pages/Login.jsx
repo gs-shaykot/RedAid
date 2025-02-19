@@ -1,4 +1,4 @@
-// how to check the 
+// make two buttons for recruiters to solve register to the site problem. there will be two button is (Login as Admin) and another is Login as user. Admin Credentials are email: jaffy@gmail.com pass: Admin@123 and normal user's email: siam@gmail.com pass: 
 import React, { useContext } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';

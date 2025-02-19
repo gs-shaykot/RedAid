@@ -12,7 +12,7 @@ const useBanks = (Division, District) => {
             const encodedDiv = encodeURIComponent(Division);
             const encodedDistrict = encodeURIComponent(District);
             console.log("Fetching banks for:", encodedDiv, encodedDistrict);
-            const res = await axiosPub.get(`/bloodBanks?division=${encodedDiv}&district=${encodedDistrict}`);
+            const res = await axios.get(`https://ass-12-delta.vercel.app/bloodBanks?division=${encodedDiv}&district=${encodedDistrict}`);
             console.log("Response: ", res.data)
             return res.data;
         },
