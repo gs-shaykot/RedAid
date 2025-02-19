@@ -9,8 +9,7 @@ const useSearch = (blood, District, Upazila, enabled) => {
 
     const { data: searchRes = [], isPending, refetch } = useQuery({
         queryKey: ['searchRes', blood, District, Upazila],
-        queryFn: async () => {
-            // Encode all parameters to handle special characters
+        queryFn: async () => { 
             const encodedBlood = encodeURIComponent(blood);
             const encodedDistrict = encodeURIComponent(District);
             const encodedUpazila = encodeURIComponent(Upazila);

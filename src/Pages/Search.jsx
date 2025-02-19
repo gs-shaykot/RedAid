@@ -1,4 +1,3 @@
-// make the searchRes card in grid-cols-2
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import useDivDis from '../Hooks/useDivDis';
@@ -9,23 +8,24 @@ import { IoLocationSharp } from 'react-icons/io5';
 const Search = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [SelectDistrictId, setSelectedDistrictId] = useState(null);
-  const [districts, upazillas] = useDivDis();
+  const [districts, upazillas, division] = useDivDis();
   const [searchParams, setSearchParams] = useState(null);
 
   const { blood, District, Upazila } = searchParams || {};
-  const [searchRes, isPending, refetch] = useSearch(blood, District, Upazila, !!searchParams); 
+  const [searchRes, isPending, refetch] = useSearch(blood, District, Upazila);
   const filteredUpazillas = SelectDistrictId
     ? upazillas.filter((upazilla) => upazilla.district_id === SelectDistrictId)
     : [];
 
   const onSubmit = (data) => {
+    console.log(data)
     const FinalData = {
       blood: data.blood,
       District: JSON.parse(data.District).name,
       Upazila: JSON.parse(data.Upazila).name,
     };
-    setSearchParams(FinalData); // Set search params to trigger useSearch
-    refetch(); // Manually trigger refetch when search params are updated
+    setSearchParams(FinalData);  
+    refetch();  
   };
 
   return (

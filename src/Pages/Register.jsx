@@ -105,7 +105,7 @@ const Register = () => {
             <div className="hero min-h-screen">
                 <div className="hero-content grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 justify-items-center md:justify-items-end">
                     <div className="order-2 lg:order-first text-center lg:text-left">
-                        <img className="max-w-full" src="https://i.ibb.co.com/ZWD8Xvx/blood-donation-concept-illustration-vector-removebg-preview.png" alt="" />
+                        <img className="max-w-full" src="https://i.ibb.co.com/23yZhD5b/blood-donation-concept-illustration-vector-removebg-preview-min.png" alt="" />
                     </div>
 
                     {/* Registration Form */}

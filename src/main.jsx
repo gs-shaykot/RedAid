@@ -41,6 +41,7 @@ import EditPost from './Pages/Dashboard/Admin/EditBlog.jsx';
 import Search from './Pages/Search.jsx';
 import Funding from './Pages/Funding';
 import ShowFunding from './Pages/ShowFunding.jsx';
+import BloodBanks from './Components/BloodBanks.jsx';
 
 export const router = createBrowserRouter([
   {
@@ -83,6 +84,10 @@ export const router = createBrowserRouter([
       {
         path: '/blogs',
         element: <Blogs></Blogs>
+      },
+      {
+        path: '/findBanks',
+        element: <BloodBanks/>
       },
       {
         path: '/blogs/:id',

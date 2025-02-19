@@ -31,7 +31,7 @@ const NavBar = () => {
                     icon: "error"
                 });
             })
-    } 
+    }
     useEffect(() => {
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 0);
@@ -76,6 +76,9 @@ const NavBar = () => {
                                         </li>
                                         <li>
                                             <NavLink to='/showfunding'>Our Patrons</NavLink>
+                                        </li>
+                                        <li>
+                                            <NavLink to='/findBanks'>Blood Banks</NavLink>
                                         </li>
                                     </> :
                                     <>
@@ -125,6 +128,9 @@ const NavBar = () => {
                                 </li>
                                 <li>
                                     <NavLink to='/showfunding'>Our Patrons</NavLink>
+                                </li>
+                                <li>
+                                    <NavLink to='/findBanks'>Blood Banks</NavLink>
                                 </li>
                             </ul> :
 
