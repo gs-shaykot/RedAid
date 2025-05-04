@@ -210,6 +210,13 @@ const Profile = () => {
                                 className="border rounded w-full p-2"
                                 {...register('Upazila', { required: 'Upazila is required' })}
                             >
+                                {
+                                    isEditable ? (
+                                        <option disabled selected>Select Your Upazilla:</option>
+                                    ) : (
+                                        <option>{dbUser?.Upazila}</option>
+                                    )
+                                }
                                 <option disabled selected>Select Your Upazilla:</option>
                                 {filteredUpazillas.map((upazilla) => (
                                     <option
