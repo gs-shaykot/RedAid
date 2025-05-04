@@ -22,7 +22,7 @@ const Profile = () => {
 
 
     const { user } = useContext(AuthContext)
-    const [{ dbUser, refetch }] = useUser() 
+    const [{ dbUser, refetch }] = useUser()
     const [isEditable, setisEditable] = useState(false)
 
     const [SelectDistrictId, setSelectedDistrictId] = useState(null);
@@ -48,15 +48,15 @@ const Profile = () => {
             ...rest,
             District: JSON.parse(data.District).name,
             Upazila: JSON.parse(data.Upazila).name
-        }; 
-        const imageFile = { image: FinalData.photo[0] } 
+        };
+        const imageFile = { image: FinalData.photo[0] }
         const res = await axiosPub.post(IMGURL, imageFile, {
             headers: {
                 'content-type': 'multipart/form-data'
             }
         });
-        
-        const image = res?.data?.data?.display_url 
+
+        const image = res?.data?.data?.display_url
         updateProfile(auth.currentUser, {
             displayName: FinalData.name, photoURL: image
         })
@@ -79,6 +79,7 @@ const Profile = () => {
 
         setisEditable(false)
     }
+
     return (
         <div className="bg-gray-100 px-4 sm:px-6 lg:px-10">
             <div className="mb-6">
@@ -185,7 +186,14 @@ const Profile = () => {
                                 {...register('District', { required: 'District is required' })}
                                 onChange={(e) => setSelectedDistrictId(JSON.parse(e.target.value).id)}
                             >
-                                <option disabled selected>Select Your District:</option>
+
+                                {
+                                    isEditable ? (
+                                        <option disabled selected>Select Your District:</option>
+                                    ) : (
+                                        <option>{dbUser?.District}</option>
+                                    )
+                                }
                                 {districts.map((district) => (
                                     <option key={district.id} value={JSON.stringify({ id: district.id, name: district.name })}>
                                         {district.name}
