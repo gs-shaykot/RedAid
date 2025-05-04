@@ -36,13 +36,20 @@ const Login = () => {
 
     // Auto-fill credentials for Admin or User
     const autoFillCredentials = (role) => {
-        const admin = { email: "jaffy@gmail.com", password: "Admin@123" };
+        const admin = { email: "sarowar@gmail.com", password: "Admin@123" };
+        const volunteer = { email: "gsshaykot53@gmail.com", password: "Admin@123" };
         const user = { email: "siam@gmail.com", password: "Admin@123" };
 
-        const credentials = role === "admin" ? admin : user;
+        let credentials;
+        if (role === "admin") credentials = admin;
+        else if (role === "volunteer") credentials = volunteer;
+        else credentials = user;
+
         document.getElementById('email').value = credentials.email;
         document.getElementById('password').value = credentials.password;
+        setEmail(credentials.email); // update state for forgot password link
     };
+
 
     return (
         <div>
@@ -111,6 +118,14 @@ const Login = () => {
                                 >
                                     Login as Admin
                                 </button>
+                                <button
+                                    type="button"
+                                    onClick={() => autoFillCredentials("volunteer")}
+                                    className="btn bg-blue-600 hover:bg-blue-700 text-white w-full md:w-auto"
+                                >
+                                    Login as Volunteer
+                                </button>
+
                                 <button
                                     type="button"
                                     onClick={() => autoFillCredentials("user")}
