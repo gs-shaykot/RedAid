@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { AuthContext } from '../Provider/AuthProvider';
@@ -7,7 +7,8 @@ const Login = () => {
     const { logInUser } = useContext(AuthContext);
     const navigate = useNavigate();
     const location = useLocation();
-
+    const [email, setEmail] = useState('');
+    console.log(email);
     const handleLogin = (e) => {
         e.preventDefault();
         const formData = new FormData(e.target);
@@ -15,6 +16,7 @@ const Login = () => {
 
         logInUser(email, password)
             .then(() => {
+                setEmail('');
                 Swal.fire({
                     title: "Success",
                     text: "Logged in successfully",
@@ -23,6 +25,7 @@ const Login = () => {
                 navigate(location?.state ? location.state : '/');
             })
             .catch(error => {
+                setEmail('');
                 Swal.fire({
                     title: "Error",
                     text: error.message,
@@ -59,6 +62,7 @@ const Login = () => {
                                     <span className="label-text">Email</span>
                                 </label>
                                 <input
+                                    onChange={(e) => setEmail(e.target.value)}
                                     type="email"
                                     name="email"
                                     id="email"
@@ -82,7 +86,7 @@ const Login = () => {
                                     required
                                 />
                                 <label className="label flex justify-between">
-                                    <NavLink to="/forgot-password" className="label-text-alt link link-hover font-semibold">
+                                    <NavLink to={`/forgotPassword?email=${email}`} className="label-text-alt link link-hover font-semibold">
                                         Forgot password?
                                     </NavLink>
                                     <NavLink to="/register" className="label-text-alt link link-hover font-semibold">

@@ -42,6 +42,7 @@ import Search from './Pages/Search.jsx';
 import Funding from './Pages/Funding';
 import ShowFunding from './Pages/ShowFunding.jsx';
 import BloodBanks from './Components/BloodBanks.jsx';
+import ForgotPassword from './Pages/ForgotPassword.jsx';
 
 export const router = createBrowserRouter([
   {
@@ -55,6 +56,10 @@ export const router = createBrowserRouter([
       {
         path: '/login',
         element: <Login />
+      },
+      {
+        path: '/forgotPassword',
+        element: <ForgotPassword />
       },
       {
         path: '/register',
