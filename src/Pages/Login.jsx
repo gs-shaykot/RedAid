@@ -96,25 +96,25 @@ const Login = () => {
                             </div>
 
                             {/* Login Button */}
-                            <div className="form-control mt-6 pb-5">
-                                <button className="btn btn-primary bg-red-600 hover:bg-[#b91c1c] text-white border-0">
+                            <div className="form-control mt-6 pb-0">
+                                <button className="btn bg-red-600 hover:bg-[#b91c1c] text-white border-0">
                                     Login
                                 </button>
                             </div>
 
                             {/* Admin & User Quick Login Buttons */}
-                            <div className="flex flex-col md:flex-row justify-center gap-4 mt-5">
+                            <div className="flex flex-col md:flex-row justify-center gap-4 my-2">
                                 <button
                                     type="button"
                                     onClick={() => autoFillCredentials("admin")}
-                                    className="btn bg-black text-white w-full md:w-auto"
+                                    className="btn bg-red-600 hover:bg-[#b91c1c] text-white w-full md:w-auto"
                                 >
                                     Login as Admin
                                 </button>
                                 <button
                                     type="button"
                                     onClick={() => autoFillCredentials("user")}
-                                    className="btn bg-gray-700 text-white w-full md:w-auto"
+                                    className="btn bg-gray-800 hover:bg-gray-900  text-white w-full md:w-auto"
                                 >
                                     Login as User
                                 </button>
