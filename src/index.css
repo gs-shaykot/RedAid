@@ -1,0 +1,111 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.active {
+    background: #dc2626 !important;
+    color: white !important;
+}
+
+#form label {
+    font-weight: bold !important;
+}
+
+.liear-bg {
+    background: rgb(250, 27, 27);
+    background: linear-gradient(174deg, rgba(250, 27, 27, 1) 0%, rgba(255, 255, 255, 0.05) 100%);
+}
+
+.tooltip-container {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip-content {
+    display: none;
+    position: absolute;
+    top: 20px;
+    left: -30px;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 8px;
+    border-radius: 4px;
+    z-index: 10;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.tooltip-container:hover .tooltip-content {
+    display: block;
+}
+
+
+
+.tooltip-container2 {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip-content2 {
+    display: none;
+    position: absolute;
+    top: 15px;
+    left: -30px;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 8px;
+    border-radius: 4px;
+    z-index: 10;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.tooltip-container2:hover .tooltip-content2 {
+    display: block;
+}
+
+.tooltip-container3 {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip-content3 {
+    display: none;
+    position: absolute;
+    top: 15px;
+    left: -30px;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 8px;
+    border-radius: 4px;
+    z-index: 10;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.tooltip-container3:hover .tooltip-content3 {
+    display: block;
+}
+
+.selected {
+    background-color: #7bff00;
+}
+
+@media screen and (max-width: 40em) {
+    .responsiveTable td .tdBefore {
+        line-height: 10px !important;
+    }
+}
+
+.swiper-pagination-bullet-active {
+    background-color: red !important;
+}
+
+.swiper-button-prev,
+.swiper-button-next { 
+    color: red !important;
+}
